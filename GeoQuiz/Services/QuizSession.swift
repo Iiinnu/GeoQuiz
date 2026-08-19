@@ -42,7 +42,11 @@ final class QuizSession: ObservableObject {
         guard let question = currentQuestion, !isFinished else { return }
         let trimmed = input.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
-        let isMatch = FuzzyMatcher.matches(trimmed, anyOf: question.acceptableAnswers)
+        let isMatch = FuzzyMatcher.isCorrect(
+            trimmed,
+            targetAnswers: question.acceptableAnswers,
+            distractorAnswers: distractorAnswers(for: question)
+        )
 
         switch state {
         case .answering:
@@ -56,6 +60,16 @@ final class QuizSession: ObservableObject {
         case .correct, .missed:
             break
         }
+    }
+
+    /// Every other country's real answers for the same field, so the matcher can tell a
+    /// typo apart from an honest wrong answer that happens to look similar (see
+    /// `FuzzyMatcher.isCorrect`). Drawn from the full dataset, not just this session's 20
+    /// questions, since a country outside today's sample is still a valid false positive.
+    private func distractorAnswers(for question: Question) -> [String] {
+        CountryData.all
+            .filter { $0.id != question.country.id }
+            .flatMap { question.target == .countryName ? $0.acceptableNameAnswers : $0.acceptableCapitalAnswers }
     }
 
     private func recordResult(wasCorrect: Bool, usedClue: Bool) {

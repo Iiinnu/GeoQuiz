@@ -27,8 +27,14 @@ struct ContentView: View {
     }
 }
 
-extension QuizSession: Identifiable {
-    nonisolated var id: ObjectIdentifier { ObjectIdentifier(self) }
+extension QuizSession: Hashable {
+    nonisolated static func == (lhs: QuizSession, rhs: QuizSession) -> Bool {
+        lhs === rhs
+    }
+
+    nonisolated func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
+    }
 }
 
 #Preview {

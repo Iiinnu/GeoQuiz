@@ -19,6 +19,38 @@ enum FuzzyMatcher {
         candidates.contains { matches(input, $0) }
     }
 
+    /// Collision-aware check for real gameplay: `input` counts as correct only if it's
+    /// genuinely closer to one of `targetAnswers` than to any `distractorAnswers` (every
+    /// other country's real name/capital). Plain `matches` alone can misfire on close
+    /// neighbors — e.g. "Austria" is only 2 edits from "Australia", within the normal
+    /// typo budget, but "Austria" is itself a real answer to a different question, not a
+    /// typo of "Australia". Requiring the target to be the *nearest* known answer catches
+    /// that: input closer to a distractor than to the target is rejected even if it would
+    /// otherwise pass the plain distance threshold.
+    static func isCorrect(_ input: String, targetAnswers: [String], distractorAnswers: [String]) -> Bool {
+        let a = normalize(input)
+        guard !a.isEmpty else { return false }
+
+        guard let bestTarget = nearest(to: a, in: targetAnswers) else { return false }
+        if bestTarget.distance == 0 { return true }
+        guard bestTarget.distance <= maxEditsAllowed(for: bestTarget.normalized) else { return false }
+
+        guard let bestDistractor = nearest(to: a, in: distractorAnswers) else { return true }
+        return bestTarget.distance < bestDistractor.distance
+    }
+
+    private static func nearest(to normalizedInput: String, in answers: [String]) -> (normalized: String, distance: Int)? {
+        var best: (normalized: String, distance: Int)?
+        for candidate in answers {
+            let normalizedCandidate = normalize(candidate)
+            let distance = levenshteinDistance(normalizedInput, normalizedCandidate)
+            if best == nil || distance < best!.distance {
+                best = (normalizedCandidate, distance)
+            }
+        }
+        return best
+    }
+
     /// Edit budget relative to the target's length. Tuned for typos, not guesses:
     /// - <=2 chars: exact match only (too easy to accidentally match a wrong short word)
     /// - 3-5 chars: 1 typo

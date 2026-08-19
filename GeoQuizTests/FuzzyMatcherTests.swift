@@ -45,6 +45,51 @@ final class FuzzyMatcherTests: XCTestCase {
         XCTAssertFalse(FuzzyMatcher.matches("", "France"))
     }
 
+    func testCollisionAwareMatchRejectsCloseNeighborCountry() {
+        // "Austria" is a real country, not a typo of "Australia" — even though it's
+        // within the plain edit-distance threshold, it must not be accepted here.
+        XCTAssertFalse(FuzzyMatcher.isCorrect(
+            "Austria",
+            targetAnswers: ["Australia"],
+            distractorAnswers: ["Austria", "Sweden", "France"]
+        ))
+    }
+
+    func testCollisionAwareMatchAcceptsTypoNotConfusableWithDistractor() {
+        XCTAssertTrue(FuzzyMatcher.isCorrect(
+            "Fance",
+            targetAnswers: ["France"],
+            distractorAnswers: ["Austria", "Sweden", "Germany"]
+        ))
+    }
+
+    func testCollisionAwareMatchAlwaysAcceptsExactMatch() {
+        // Exact match is unambiguous even if a distractor happens to be just as close.
+        XCTAssertTrue(FuzzyMatcher.isCorrect(
+            "Chad",
+            targetAnswers: ["Chad"],
+            distractorAnswers: ["Chile"]
+        ))
+    }
+
+    func testCollisionAwareMatchAgainstFullDataset() {
+        for country in CountryData.all {
+            let distractorNames = CountryData.all
+                .filter { $0.id != country.id }
+                .flatMap(\.acceptableNameAnswers)
+            XCTAssertTrue(
+                FuzzyMatcher.isCorrect(country.name, targetAnswers: country.acceptableNameAnswers, distractorAnswers: distractorNames),
+                "Exact country name '\(country.name)' should always match itself"
+            )
+            for other in CountryData.all where other.id != country.id {
+                XCTAssertFalse(
+                    FuzzyMatcher.isCorrect(other.name, targetAnswers: country.acceptableNameAnswers, distractorAnswers: distractorNames),
+                    "'\(other.name)' should not match the question for '\(country.name)'"
+                )
+            }
+        }
+    }
+
     func testLevenshteinDistanceKnownValues() {
         XCTAssertEqual(FuzzyMatcher.levenshteinDistance("kitten", "sitting"), 3)
         XCTAssertEqual(FuzzyMatcher.levenshteinDistance("", "abc"), 3)
