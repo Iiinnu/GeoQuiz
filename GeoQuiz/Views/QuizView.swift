@@ -14,6 +14,8 @@ struct QuizView: View {
             if let question = session.currentQuestion {
                 Spacer(minLength: 0)
 
+                QuestionMediaView(question: question)
+
                 Text(question.promptText)
                     .font(.title2.bold())
                     .multilineTextAlignment(.leading)
@@ -101,6 +103,36 @@ struct QuizView: View {
         session.advance()
         if session.isFinished {
             onFinished()
+        }
+    }
+}
+
+/// The image for image-based modes (Flags today; Contours/Aerial reuse this once their
+/// asset refs exist). Capitals has no media, so this renders nothing for it.
+private struct QuestionMediaView: View {
+    let question: Question
+
+    var body: some View {
+        if let assetName = assetName {
+            Image(assetName)
+                .resizable()
+                .aspectRatio(4.0 / 3.0, contentMode: .fit)
+                .frame(maxWidth: 280)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(.separator, lineWidth: 1)
+                )
+                .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+        }
+    }
+
+    private var assetName: String? {
+        switch question.mode {
+        case .flags: return question.country.flagAssetRef
+        case .contours: return question.country.borderShapeRef
+        case .aerial: return question.country.aerialImageRef
+        case .capitals: return nil
         }
     }
 }

@@ -35,6 +35,7 @@ enum GameMode: String, CaseIterable, Identifiable, Codable {
         }
     }
 
-    /// Only Capitals is built end-to-end in Phase 1; the rest are shown but disabled.
-    var isImplemented: Bool { self == .capitals }
+    /// Capitals (Phase 1) and Flags (Phase 2) are built end-to-end; Contours/Aerial are
+    /// shown but disabled until their asset pipelines exist.
+    var isImplemented: Bool { self == .capitals || self == .flags }
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		07C466E66B8455CA06FE4460 /* QuizSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0517E1B28FB8EF6D08D33EBD /* QuizSession.swift */; };
 		14DF2A5CD409D2F72B29D498 /* QuizSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A231A436A7ECD2965AD1FB6 /* QuizSessionTests.swift */; };
+		2A85BF1B040033F9CC11341C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1DB9B77511A7A63FC74A168 /* Assets.xcassets */; };
 		2AFB0CE27B5990FF847C0BFD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324794592EE2619B9E392719 /* ContentView.swift */; };
 		61496D998D7220BC9D7A7251 /* CountryDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D6F16B7A7F7B0836DF8360 /* CountryDataTests.swift */; };
 		77DAEC7D21853E01890EFC61 /* FuzzyMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE3D194C2F6D9DFEC5B930 /* FuzzyMatcherTests.swift */; };
@@ -54,6 +55,7 @@
 		A3B839C8173E09DFCA4F9B67 /* GeoQuiz.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = GeoQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B37AED1D5C20B8B25CC3D32D /* ModePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModePickerView.swift; sourceTree = "<group>"; };
 		B4F6632039D936691DF12ECA /* GeoQuizApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoQuizApp.swift; sourceTree = "<group>"; };
+		D1DB9B77511A7A63FC74A168 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E674D6545A0EEB2ECC45BB48 /* GameMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		E9AE3D194C2F6D9DFEC5B930 /* FuzzyMatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuzzyMatcherTests.swift; sourceTree = "<group>"; };
 		EA45B2F172427840E844B0F2 /* GeoQuizTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = GeoQuizTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +116,7 @@
 		989C22662DEA2115BC58010B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D1DB9B77511A7A63FC74A168 /* Assets.xcassets */,
 				39C8077AEF3D1CF6B552A881 /* CountryData.swift */,
 			);
 			path = Resources;
@@ -177,6 +180,7 @@
 			buildConfigurationList = 6B767D044716D914406A4FDD /* Build configuration list for PBXNativeTarget "GeoQuiz" */;
 			buildPhases = (
 				1B46662213685A8EE4D91E05 /* Sources */,
+				BF8B735741A75A62C76FEF68 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -227,6 +231,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BF8B735741A75A62C76FEF68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A85BF1B040033F9CC11341C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1B46662213685A8EE4D91E05 /* Sources */ = {

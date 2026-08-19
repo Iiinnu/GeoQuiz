@@ -4,7 +4,15 @@ import Foundation
 /// continent (~58 total). All game modes read from this single list. Expanding to the
 /// full ~195 UN member set later is additive — just append `Country` entries here.
 enum CountryData {
-    static let all: [Country] = [
+    /// Flag asset names follow "flag_<id>" for every entry below, so it's derived here
+    /// rather than repeated 58 times — see Assets.xcassets.
+    static let all: [Country] = base.map { country in
+        var country = country
+        country.flagAssetRef = "flag_\(country.id)"
+        return country
+    }
+
+    private static let base: [Country] = [
         // North America
         Country(id: "US", name: "United States", capital: "Washington, D.C.", region: .northAmerica,
                 nameAliases: ["USA", "United States of America", "US", "America"],

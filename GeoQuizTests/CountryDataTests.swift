@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 @testable import GeoQuiz
 
 final class CountryDataTests: XCTestCase {
@@ -23,5 +24,20 @@ final class CountryDataTests: XCTestCase {
     func testAllRegionsRepresented() {
         let regions = Set(CountryData.all.map(\.region))
         XCTAssertEqual(regions, Set(Region.allCases))
+    }
+
+    func testEveryCountryHasAFlagAssetRefFollowingNamingConvention() {
+        for country in CountryData.all {
+            XCTAssertEqual(country.flagAssetRef, "flag_\(country.id)")
+        }
+    }
+
+    func testFlagAssetsActuallyExistInTheBundle() {
+        for country in CountryData.all {
+            XCTAssertNotNil(
+                UIImage(named: country.flagAssetRef!),
+                "Missing flag asset '\(country.flagAssetRef!)' for \(country.name) — check Assets.xcassets"
+            )
+        }
     }
 }
