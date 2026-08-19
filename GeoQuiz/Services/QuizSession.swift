@@ -62,6 +62,14 @@ final class QuizSession: ObservableObject {
         }
     }
 
+    /// Shows the clue on demand, without requiring a wrong guess first — same one-retry
+    /// flow as answering wrong, so a player who just doesn't know the answer isn't forced
+    /// to type a throwaway guess to unlock it.
+    func requestHint() {
+        guard let question = currentQuestion, state == .answering else { return }
+        state = .awaitingRetry(clue: ClueProvider.clue(for: question))
+    }
+
     /// Every other country's real answers for the same field, so the matcher can tell a
     /// typo apart from an honest wrong answer that happens to look similar (see
     /// `FuzzyMatcher.isCorrect`). Drawn from the full dataset, not just this session's 20

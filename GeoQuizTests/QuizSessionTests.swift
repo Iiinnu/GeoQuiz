@@ -42,6 +42,48 @@ final class QuizSessionTests: XCTestCase {
         XCTAssertEqual(session.results.first?.wasCorrect, false)
     }
 
+    func testHintShowsClueWithoutRequiringAWrongGuess() {
+        let session = QuizSession(modes: [.capitals])
+        session.requestHint()
+        guard case .awaitingRetry(let clue) = session.state else {
+            return XCTFail("expected clue state after requesting a hint")
+        }
+        XCTAssertFalse(clue.isEmpty)
+        XCTAssertEqual(session.results.count, 0, "requesting a hint shouldn't record a result by itself")
+    }
+
+    func testCorrectAnswerAfterHintStillCountsAsCorrect() {
+        let session = QuizSession(modes: [.capitals])
+        guard let question = session.currentQuestion else { return XCTFail("no question") }
+
+        session.requestHint()
+        session.submit(question.primaryAnswer)
+
+        XCTAssertEqual(session.state, .correct)
+        XCTAssertEqual(session.score, 1)
+        XCTAssertEqual(session.results.first?.usedClue, true)
+    }
+
+    func testHintDoesNothingOnceAlreadyShowingAClueOrResolved() {
+        let session = QuizSession(modes: [.capitals])
+        session.requestHint()
+        guard case .awaitingRetry(let firstClue) = session.state else {
+            return XCTFail("expected clue state")
+        }
+
+        session.requestHint()
+        guard case .awaitingRetry(let secondClue) = session.state else {
+            return XCTFail("expected clue state to remain")
+        }
+        XCTAssertEqual(firstClue, secondClue)
+
+        session.submit("still wrong")
+        XCTAssertEqual(session.state, .missed)
+
+        session.requestHint()
+        XCTAssertEqual(session.state, .missed, "hint should be a no-op once the question is resolved")
+    }
+
     func testSessionHasTwentyQuestions() {
         let session = QuizSession(modes: [.capitals])
         XCTAssertEqual(session.totalCount, 20)

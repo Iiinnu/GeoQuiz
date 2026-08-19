@@ -59,17 +59,27 @@ struct QuizView: View {
     private func answerControl(for question: Question) -> some View {
         switch session.state {
         case .answering, .awaitingRetry:
-            HStack {
-                TextField("Your answer", text: $inputText)
-                    .textFieldStyle(.roundedBorder)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.words)
-                    .focused($inputFocused)
-                    .onSubmit(submit)
+            VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    TextField("Your answer", text: $inputText)
+                        .textFieldStyle(.roundedBorder)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.words)
+                        .focused($inputFocused)
+                        .onSubmit(submit)
 
-                Button("Submit", action: submit)
-                    .buttonStyle(.borderedProminent)
-                    .disabled(inputText.trimmingCharacters(in: .whitespaces).isEmpty)
+                    Button("Submit", action: submit)
+                        .buttonStyle(.borderedProminent)
+                        .disabled(inputText.trimmingCharacters(in: .whitespaces).isEmpty)
+                }
+
+                if session.state == .answering {
+                    Button(action: { session.requestHint() }) {
+                        Label("I don't know, give me a hint", systemImage: "lightbulb")
+                            .font(.subheadline)
+                    }
+                    .buttonStyle(.borderless)
+                }
             }
         case .correct, .missed:
             Button(action: next) {
