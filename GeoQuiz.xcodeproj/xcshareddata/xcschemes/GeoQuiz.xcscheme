@@ -21,6 +21,20 @@
                ReferencedContainer = "container:GeoQuiz.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "00AA7D56B2B96B5F307D43FF"
+               BuildableName = "GeoQuizTests.xctest"
+               BlueprintName = "GeoQuizTests"
+               ReferencedContainer = "container:GeoQuiz.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -39,6 +53,17 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "00AA7D56B2B96B5F307D43FF"
+               BuildableName = "GeoQuizTests.xctest"
+               BlueprintName = "GeoQuizTests"
+               ReferencedContainer = "container:GeoQuiz.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>
@@ -82,8 +107,6 @@
             ReferencedContainer = "container:GeoQuiz.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-      </CommandLineArguments>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
