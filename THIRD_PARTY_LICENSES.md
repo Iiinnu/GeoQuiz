@@ -45,3 +45,16 @@ to each country's significant landmasses, simplified, and normalized; see
 also derived from the same `countries.geojson` — border adjacency was computed
 geometrically from the boundary polygons rather than sourced from a separate dataset.
 Same PDDL terms as above apply.
+
+## Aerial (satellite) images
+
+The images in `GeoQuiz/Resources/Assets.xcassets` (`aerial_*.imageset`) are true-color
+crops generated from Sentinel-2 L2A data via the Copernicus Data Space Ecosystem's
+Sentinel Hub Process API, centered on each country's capital city. Per the Copernicus
+data terms, this app displays the following attribution notice:
+
+> Contains modified Copernicus Sentinel data (2025–2026)
+
+Capital city coordinates used to center each crop come from `ne_10m_populated_places`
+in [natural-earth-vector](https://github.com/nvkelso/natural-earth-vector) (Natural
+Earth data, public domain, no attribution required).

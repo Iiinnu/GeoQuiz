@@ -40,4 +40,19 @@ final class CountryDataTests: XCTestCase {
             )
         }
     }
+
+    func testEveryCountryHasAnAerialImageRefFollowingNamingConvention() {
+        for country in CountryData.all {
+            XCTAssertEqual(country.aerialImageRef, "aerial_\(country.id)")
+        }
+    }
+
+    func testAerialImageAssetsActuallyExistInTheBundle() {
+        for country in CountryData.all {
+            XCTAssertNotNil(
+                UIImage(named: country.aerialImageRef!),
+                "Missing aerial asset '\(country.aerialImageRef!)' for \(country.name) — check Assets.xcassets"
+            )
+        }
+    }
 }

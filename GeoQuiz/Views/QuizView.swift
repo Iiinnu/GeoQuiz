@@ -107,9 +107,11 @@ struct QuizView: View {
     }
 }
 
-/// The visual for image-based modes. Flags (and later Aerial) render a bundled image;
-/// Contours renders a vector `ContourShape` looked up from `ContourData`. Capitals has
-/// no media, so this renders nothing for it.
+/// The visual for image-based modes. Flags renders a bundled 4:3 image; Aerial renders a
+/// bundled square satellite crop (a fixed ~50km box around each capital, so every image
+/// is genuinely square — a 4:3 frame would just letterbox it). Contours renders a vector
+/// `ContourShape` looked up from `ContourData`. Capitals has no media, so this renders
+/// nothing for it.
 private struct QuestionMediaView: View {
     let question: Question
 
@@ -117,8 +119,8 @@ private struct QuestionMediaView: View {
         switch question.mode {
         case .capitals:
             EmptyView()
-        case .flags, .aerial:
-            if let assetName = assetName {
+        case .flags:
+            if let assetName = question.country.flagAssetRef {
                 Image(assetName)
                     .resizable()
                     .aspectRatio(4.0 / 3.0, contentMode: .fit)
@@ -126,6 +128,25 @@ private struct QuestionMediaView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .overlay(cardBorder)
                     .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+            }
+        case .aerial:
+            if let assetName = question.country.aerialImageRef {
+                VStack(spacing: 4) {
+                    Image(assetName)
+                        .resizable()
+                        .aspectRatio(1.0, contentMode: .fit)
+                        .frame(maxWidth: 280, maxHeight: 280)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .overlay(cardBorder)
+                        .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+
+                    // Required by the Copernicus data terms wherever Sentinel data is
+                    // displayed, not just in project docs — this is what an end user of
+                    // the shipped app actually sees.
+                    Text("Contains modified Copernicus Sentinel data")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                }
             }
         case .contours:
             ContourShape(rings: ContourData.all[question.country.borderShapeRef ?? ""] ?? [])
@@ -139,14 +160,6 @@ private struct QuestionMediaView: View {
 
     private var cardBorder: some View {
         RoundedRectangle(cornerRadius: 12).strokeBorder(.separator, lineWidth: 1)
-    }
-
-    private var assetName: String? {
-        switch question.mode {
-        case .flags: return question.country.flagAssetRef
-        case .aerial: return question.country.aerialImageRef
-        case .capitals, .contours: return nil
-        }
     }
 }
 
