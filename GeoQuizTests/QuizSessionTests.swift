@@ -77,14 +77,27 @@ final class QuizSessionTests: XCTestCase {
         }
         XCTAssertEqual(firstClue, secondClue)
 
+        // Wrong guess after the hint escalates to the stronger clue rather than missing.
         session.submit("still wrong")
+        guard case .awaitingRetry = session.state else {
+            return XCTFail("expected the stronger clue, not a miss, right after the hint")
+        }
+
+        session.requestHint()
+        guard case .awaitingRetry(let thirdClue) = session.state else {
+            return XCTFail("expected clue state to remain")
+        }
+        XCTAssertNotEqual(thirdClue, firstClue, "hint shouldn't roll the state back to the weaker clue")
+
+        // Now on the strongest clue — this wrong guess is the one that finally misses.
+        session.submit("still wrong again")
         XCTAssertEqual(session.state, .missed)
 
         session.requestHint()
         XCTAssertEqual(session.state, .missed, "hint should be a no-op once the question is resolved")
     }
 
-    func testCapitalsHintAndWrongGuessGiveTheSameCombinedClue() {
+    func testCapitalsHintThenWrongEscalatesToStartsWithClueInsteadOfMissing() {
         let session = QuizSession(modes: [.capitals])
         guard let question = session.currentQuestion else { return XCTFail("no question") }
 
@@ -92,10 +105,20 @@ final class QuizSessionTests: XCTestCase {
         guard case .awaitingRetry(let hintClue) = session.state else {
             return XCTFail("expected clue state after requesting a hint")
         }
-        XCTAssertEqual(hintClue, ClueProvider.combinedClue(for: question))
+        XCTAssertEqual(hintClue, ClueProvider.letterCountClue(for: question))
 
+        // The hint (letter count) shouldn't burn your only retry with nothing gained —
+        // a wrong guess right after it should reveal the starting letter, not miss
+        // outright.
         session.submit("definitely not the answer")
-        XCTAssertEqual(session.state, .missed, "one retry only — wrong after the hint ends the question")
+        guard case .awaitingRetry(let secondClue) = session.state else {
+            return XCTFail("expected a second, stronger clue instead of missing")
+        }
+        XCTAssertEqual(secondClue, ClueProvider.startsWithClue(for: question))
+
+        // Only the next wrong guess (now on the strongest clue) ends the question.
+        session.submit("still not the answer")
+        XCTAssertEqual(session.state, .missed)
     }
 
     func testFlagsHintThenWrongEscalatesToStartsWithClueInsteadOfMissing() {

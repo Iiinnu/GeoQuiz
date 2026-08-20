@@ -2,9 +2,9 @@ import Foundation
 
 /// Where a question currently sits in the shared answer flow (used by every mode):
 /// answering -> (hint or wrong) -> clue shown -> correct or missed. If the hint's clue
-/// and the wrong-guess clue actually differ (they do for Flags/Contours/Aerial, not for
-/// Capitals — see ClueProvider), a wrong guess after the hint reveals that stronger clue
-/// instead of ending the question, so using the hint doesn't waste your only retry.
+/// and the wrong-guess clue actually differ (they do for every mode — see ClueProvider),
+/// a wrong guess after the hint reveals that stronger clue instead of ending the
+/// question, so using the hint doesn't waste your only retry.
 enum QuestionState: Equatable {
     case answering
     case awaitingRetry(clue: String)
@@ -76,10 +76,11 @@ final class QuizSession: ObservableObject {
     }
 
     /// After a wrong guess: if the hint was already used and the wrong-guess clue is
-    /// strictly stronger (actually different — not the case for Capitals, where both
-    /// clues are the same combined string), show that stronger clue for one more try
-    /// instead of ending the question, so the hint doesn't cost you your only retry with
-    /// nothing gained. Otherwise resolves as missed, same as always.
+    /// genuinely different from what the hint already showed, show that stronger clue
+    /// for one more try instead of ending the question, so the hint doesn't cost you your
+    /// only retry with nothing gained. Otherwise resolves as missed, same as always. The
+    /// `strongClue == hintClue` check is what makes this a no-op if some future mode ever
+    /// reuses the same text for both.
     private func advanceToNextClueOrMiss(for question: Question) {
         guard !hasShownStrongClue else {
             recordResult(wasCorrect: false, usedClue: true)

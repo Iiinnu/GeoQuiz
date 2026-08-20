@@ -4,29 +4,27 @@ import XCTest
 final class ClueProviderTests: XCTestCase {
     private let sweden = Country(id: "SE", name: "Sweden", capital: "Stockholm", region: .europe)
 
-    // MARK: Capitals — hint and wrong guess both give the same combined clue
+    // MARK: Capitals — hint gives letter count only, wrong guess gives starting letter only
 
-    func testCapitalsHintGivesCombinedClue() {
+    func testCapitalsHintGivesLetterCountOnly() {
         let question = Question(mode: .capitals, country: sweden, target: .capitalName)
         let clue = ClueProvider.hintClue(for: question)
-        XCTAssertTrue(clue.contains("capital"))
-        XCTAssertTrue(clue.contains("'S'"))
         XCTAssertTrue(clue.contains("9 letters"))
-        XCTAssertTrue(clue.contains("Europe"))
+        XCTAssertFalse(clue.contains("'S'"), "capitals hint shouldn't also give away the starting letter")
+        XCTAssertFalse(clue.contains("Europe"), "capitals hint shouldn't also give away the region")
     }
 
-    func testCapitalsWrongGuessGivesCombinedClue() {
+    func testCapitalsWrongGuessGivesStartsWithOnly() {
         let question = Question(mode: .capitals, country: sweden, target: .countryName)
         let clue = ClueProvider.wrongGuessClue(for: question)
         XCTAssertTrue(clue.contains("country"))
         XCTAssertTrue(clue.contains("'S'"))
-        XCTAssertTrue(clue.contains("6 letters"))
-        XCTAssertTrue(clue.contains("Europe"))
+        XCTAssertFalse(clue.contains("6 letters"), "capitals wrong-guess clue shouldn't also give away the letter count")
     }
 
-    func testCapitalsHintAndWrongGuessMatch() {
+    func testCapitalsHintAndWrongGuessDiffer() {
         let question = Question(mode: .capitals, country: sweden, target: .capitalName)
-        XCTAssertEqual(ClueProvider.hintClue(for: question), ClueProvider.wrongGuessClue(for: question))
+        XCTAssertNotEqual(ClueProvider.hintClue(for: question), ClueProvider.wrongGuessClue(for: question))
     }
 
     // MARK: Flags — hint gives region only, wrong guess gives starting letter only
