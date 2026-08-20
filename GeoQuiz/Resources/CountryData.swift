@@ -4,11 +4,13 @@ import Foundation
 /// continent (~58 total). All game modes read from this single list. Expanding to the
 /// full ~195 UN member set later is additive — just append `Country` entries here.
 enum CountryData {
-    /// Flag asset names follow "flag_<id>" for every entry below, so it's derived here
-    /// rather than repeated 58 times — see Assets.xcassets.
+    /// Flag asset names follow "flag_<id>" and contour lookup keys are just `id` itself —
+    /// both derived here rather than repeated 58 times. See Assets.xcassets and
+    /// Contours.json.
     static let all: [Country] = base.map { country in
         var country = country
         country.flagAssetRef = "flag_\(country.id)"
+        country.borderShapeRef = country.id
         return country
     }
 

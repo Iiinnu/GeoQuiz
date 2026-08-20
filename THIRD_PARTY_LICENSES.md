@@ -29,3 +29,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## Country border outlines
+
+`GeoQuiz/Resources/Contours.json` is derived from `countries.geojson` in
+[datasets/geo-countries](https://github.com/datasets/geo-countries) (boundary data
+sourced from Natural Earth), used under the Open Data Commons Public Domain Dedication
+and License (PDDL) — public domain, no attribution required. Coordinates were filtered
+to each country's significant landmasses, simplified, and normalized; see
+`GeoQuiz/Services/ContourData.swift` and `GeoQuiz/Views/ContourShape.swift`.

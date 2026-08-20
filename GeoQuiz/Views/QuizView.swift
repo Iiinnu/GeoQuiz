@@ -107,32 +107,45 @@ struct QuizView: View {
     }
 }
 
-/// The image for image-based modes (Flags today; Contours/Aerial reuse this once their
-/// asset refs exist). Capitals has no media, so this renders nothing for it.
+/// The visual for image-based modes. Flags (and later Aerial) render a bundled image;
+/// Contours renders a vector `ContourShape` looked up from `ContourData`. Capitals has
+/// no media, so this renders nothing for it.
 private struct QuestionMediaView: View {
     let question: Question
 
     var body: some View {
-        if let assetName = assetName {
-            Image(assetName)
-                .resizable()
-                .aspectRatio(4.0 / 3.0, contentMode: .fit)
-                .frame(maxWidth: 280)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(.separator, lineWidth: 1)
-                )
-                .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+        switch question.mode {
+        case .capitals:
+            EmptyView()
+        case .flags, .aerial:
+            if let assetName = assetName {
+                Image(assetName)
+                    .resizable()
+                    .aspectRatio(4.0 / 3.0, contentMode: .fit)
+                    .frame(maxWidth: 280)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay(cardBorder)
+                    .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+            }
+        case .contours:
+            ContourShape(rings: ContourData.all[question.country.borderShapeRef ?? ""] ?? [])
+                .fill(.black, style: FillStyle(eoFill: true))
+                .frame(maxWidth: 280, maxHeight: 280)
+                .padding(16)
+                .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+                .overlay(cardBorder)
         }
+    }
+
+    private var cardBorder: some View {
+        RoundedRectangle(cornerRadius: 12).strokeBorder(.separator, lineWidth: 1)
     }
 
     private var assetName: String? {
         switch question.mode {
         case .flags: return question.country.flagAssetRef
-        case .contours: return question.country.borderShapeRef
         case .aerial: return question.country.aerialImageRef
-        case .capitals: return nil
+        case .capitals, .contours: return nil
         }
     }
 }
