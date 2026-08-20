@@ -53,7 +53,9 @@ final class QuizSession: ObservableObject {
             if isMatch {
                 recordResult(wasCorrect: true, usedClue: false)
             } else {
-                state = .awaitingRetry(clue: ClueProvider.clue(for: question))
+                // An honest wrong guess earns the more specific clue — a bigger hint than
+                // the on-demand region hint, since the player already tried.
+                state = .awaitingRetry(clue: ClueProvider.startsWithClue(for: question))
             }
         case .awaitingRetry:
             recordResult(wasCorrect: isMatch, usedClue: true)
@@ -62,12 +64,12 @@ final class QuizSession: ObservableObject {
         }
     }
 
-    /// Shows the clue on demand, without requiring a wrong guess first — same one-retry
-    /// flow as answering wrong, so a player who just doesn't know the answer isn't forced
-    /// to type a throwaway guess to unlock it.
+    /// Shows the (broader) region clue on demand, without requiring a wrong guess first —
+    /// same one-retry flow as answering wrong, so a player who just doesn't know the
+    /// answer isn't forced to type a throwaway guess to unlock it.
     func requestHint() {
         guard let question = currentQuestion, state == .answering else { return }
-        state = .awaitingRetry(clue: ClueProvider.clue(for: question))
+        state = .awaitingRetry(clue: ClueProvider.regionClue(for: question))
     }
 
     /// Every other country's real answers for the same field, so the matcher can tell a

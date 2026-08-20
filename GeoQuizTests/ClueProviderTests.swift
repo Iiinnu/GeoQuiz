@@ -4,26 +4,31 @@ import XCTest
 final class ClueProviderTests: XCTestCase {
     private let sweden = Country(id: "SE", name: "Sweden", capital: "Stockholm", region: .europe)
 
-    func testClueForCapitalTarget() {
+    func testRegionClueRevealsRegionOnly() {
         let question = Question(mode: .capitals, country: sweden, target: .capitalName)
-        let clue = ClueProvider.clue(for: question)
+        let clue = ClueProvider.regionClue(for: question)
+        XCTAssertTrue(clue.contains("Europe"))
+        XCTAssertFalse(clue.contains("Stockholm"))
+        XCTAssertFalse(clue.contains("'S'"), "region clue shouldn't also give away the starting letter")
+    }
+
+    func testStartsWithClueForCapitalTarget() {
+        let question = Question(mode: .capitals, country: sweden, target: .capitalName)
+        let clue = ClueProvider.startsWithClue(for: question)
         XCTAssertTrue(clue.contains("capital"))
         XCTAssertTrue(clue.contains("'S'"))
-        XCTAssertTrue(clue.contains("9 letters"))
-        XCTAssertTrue(clue.contains("Europe"))
     }
 
-    func testClueForCountryTarget() {
+    func testStartsWithClueForCountryTarget() {
         let question = Question(mode: .capitals, country: sweden, target: .countryName)
-        let clue = ClueProvider.clue(for: question)
+        let clue = ClueProvider.startsWithClue(for: question)
         XCTAssertTrue(clue.contains("country"))
         XCTAssertTrue(clue.contains("'S'"))
-        XCTAssertTrue(clue.contains("6 letters"))
     }
 
-    func testClueDoesNotRevealFullAnswer() {
+    func testNeitherClueRevealsTheFullAnswer() {
         let question = Question(mode: .capitals, country: sweden, target: .capitalName)
-        let clue = ClueProvider.clue(for: question)
-        XCTAssertFalse(clue.contains("Stockholm"))
+        XCTAssertFalse(ClueProvider.regionClue(for: question).contains("Stockholm"))
+        XCTAssertFalse(ClueProvider.startsWithClue(for: question).contains("Stockholm"))
     }
 }

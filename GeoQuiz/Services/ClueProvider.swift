@@ -1,16 +1,19 @@
 import Foundation
 
-/// Generates a clue from data already on `Country` — no per-country authoring needed.
-/// Shared across all game modes: Capitals uses it today, Flags/Contours/Aerial (whose
-/// answer is always the country name) can call the same `clue(forCountryName:)` path.
+/// Generates clues from data already on `Country` — no per-country authoring needed.
+/// Shared across all game modes, and staged in two tiers so guessing wrong still teaches
+/// you something beyond what the on-demand hint already gave away:
+/// - `regionClue`: shown when the player asks for a hint before attempting an answer.
+/// - `startsWithClue`: shown after an honest wrong guess, more specific than the region.
 enum ClueProvider {
-    static func clue(for question: Question) -> String {
+    static func regionClue(for question: Question) -> String {
+        "It's in \(question.country.region.rawValue)."
+    }
+
+    static func startsWithClue(for question: Question) -> String {
         let answer = question.primaryAnswer
-        let letterCount = answer.filter { $0.isLetter }.count
         let firstLetter = answer.first.map(String.init)?.uppercased() ?? "?"
         let subject = question.target == .capitalName ? "The capital" : "The country"
-
-        return "\(subject) starts with '\(firstLetter)', has \(letterCount) letters, "
-            + "and is in \(question.country.region.rawValue)."
+        return "\(subject) starts with '\(firstLetter)'."
     }
 }
