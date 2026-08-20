@@ -98,7 +98,7 @@ final class QuizSessionTests: XCTestCase {
         XCTAssertEqual(session.state, .missed, "one retry only — wrong after the hint ends the question")
     }
 
-    func testFlagsHintGivesRegionClueWrongGuessGivesStartsWithClue() {
+    func testFlagsHintThenWrongEscalatesToStartsWithClueInsteadOfMissing() {
         let session = QuizSession(modes: [.flags])
         guard let question = session.currentQuestion else { return XCTFail("no question") }
 
@@ -108,8 +108,17 @@ final class QuizSessionTests: XCTestCase {
         }
         XCTAssertEqual(hintClue, ClueProvider.regionClue(for: question))
 
+        // The hint shouldn't burn your only retry with nothing gained — a wrong guess
+        // right after it should reveal the stronger starts-with clue, not miss outright.
         session.submit("definitely not the answer")
-        XCTAssertEqual(session.state, .missed, "one retry only — wrong after the hint ends the question")
+        guard case .awaitingRetry(let secondClue) = session.state else {
+            return XCTFail("expected a second, stronger clue instead of missing")
+        }
+        XCTAssertEqual(secondClue, ClueProvider.startsWithClue(for: question))
+
+        // Only the next wrong guess (now on the strongest clue) ends the question.
+        session.submit("still not the answer")
+        XCTAssertEqual(session.state, .missed)
     }
 
     func testFlagsWrongGuessWithoutHintGivesStartsWithClueNotRegionClue() {
@@ -124,7 +133,7 @@ final class QuizSessionTests: XCTestCase {
         XCTAssertNotEqual(clue, ClueProvider.regionClue(for: question))
     }
 
-    func testContoursHintGivesRegionClueWrongGuessGivesBordersClue() {
+    func testContoursHintThenWrongEscalatesToStrongerClueInsteadOfMissing() {
         let session = QuizSession(modes: [.contours])
         guard let question = session.currentQuestion else { return XCTFail("no question") }
 
@@ -134,8 +143,26 @@ final class QuizSessionTests: XCTestCase {
         }
         XCTAssertEqual(hintClue, ClueProvider.regionClue(for: question))
 
+        // The hint shouldn't burn your only retry with nothing gained — a wrong guess
+        // right after it should reveal the stronger clue (a real border, or the
+        // starts-with fallback for island nations), not miss outright either way, since
+        // both differ from the region-only hint. bordersClue() picks a random neighbor
+        // each call, so check the clue's shape/membership rather than re-deriving an
+        // exact expected string (which could legitimately name a different neighbor).
         session.submit("definitely not the answer")
-        XCTAssertEqual(session.state, .missed, "one retry only — wrong after the hint ends the question")
+        guard case .awaitingRetry(let secondClue) = session.state else {
+            return XCTFail("expected a second, stronger clue instead of missing")
+        }
+        if let neighbors = BorderData.neighbors[question.country.id], !neighbors.isEmpty {
+            XCTAssertTrue(secondClue.hasPrefix("It shares a border with "))
+            XCTAssertTrue(neighbors.contains { secondClue.contains($0) })
+        } else {
+            XCTAssertEqual(secondClue, ClueProvider.startsWithClue(for: question))
+        }
+
+        // Only the next wrong guess (now on the strongest clue) ends the question.
+        session.submit("still not the answer")
+        XCTAssertEqual(session.state, .missed)
     }
 
     func testContoursWrongGuessWithoutHintGivesBordersOrStartsWithClueNotRegionClue() {

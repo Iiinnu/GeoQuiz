@@ -1,7 +1,10 @@
 import Foundation
 
 /// Where a question currently sits in the shared answer flow (used by every mode):
-/// answering -> (wrong) -> clue shown, one retry -> correct or missed.
+/// answering -> (hint or wrong) -> clue shown -> correct or missed. If the hint's clue
+/// and the wrong-guess clue actually differ (they do for Flags/Contours/Aerial, not for
+/// Capitals — see ClueProvider), a wrong guess after the hint reveals that stronger clue
+/// instead of ending the question, so using the hint doesn't waste your only retry.
 enum QuestionState: Equatable {
     case answering
     case awaitingRetry(clue: String)
@@ -23,6 +26,9 @@ final class QuizSession: ObservableObject {
     @Published private(set) var currentIndex = 0
     @Published private(set) var state: QuestionState = .answering
     @Published private(set) var results: [QuestionResult] = []
+
+    private var hasShownHintClue = false
+    private var hasShownStrongClue = false
 
     init(modes: Set<GameMode>) {
         self.questions = QuestionFactory.makeSession(modes: modes)
@@ -49,25 +55,43 @@ final class QuizSession: ObservableObject {
         )
 
         switch state {
-        case .answering:
+        case .answering, .awaitingRetry:
             if isMatch {
-                recordResult(wasCorrect: true, usedClue: false)
+                recordResult(wasCorrect: true, usedClue: hasShownHintClue || hasShownStrongClue)
             } else {
-                state = .awaitingRetry(clue: ClueProvider.wrongGuessClue(for: question))
+                advanceToNextClueOrMiss(for: question)
             }
-        case .awaitingRetry:
-            recordResult(wasCorrect: isMatch, usedClue: true)
         case .correct, .missed:
             break
         }
     }
 
-    /// Shows the hint clue on demand, without requiring a wrong guess first — same
-    /// one-retry flow as answering wrong, so a player who just doesn't know the answer
-    /// isn't forced to type a throwaway guess to unlock it.
+    /// Shows the hint clue on demand, without requiring a wrong guess first — so a player
+    /// who just doesn't know the answer isn't forced to type a throwaway guess to unlock
+    /// it.
     func requestHint() {
         guard let question = currentQuestion, state == .answering else { return }
+        hasShownHintClue = true
         state = .awaitingRetry(clue: ClueProvider.hintClue(for: question))
+    }
+
+    /// After a wrong guess: if the hint was already used and the wrong-guess clue is
+    /// strictly stronger (actually different — not the case for Capitals, where both
+    /// clues are the same combined string), show that stronger clue for one more try
+    /// instead of ending the question, so the hint doesn't cost you your only retry with
+    /// nothing gained. Otherwise resolves as missed, same as always.
+    private func advanceToNextClueOrMiss(for question: Question) {
+        guard !hasShownStrongClue else {
+            recordResult(wasCorrect: false, usedClue: true)
+            return
+        }
+        let strongClue = ClueProvider.wrongGuessClue(for: question)
+        if hasShownHintClue && strongClue == ClueProvider.hintClue(for: question) {
+            recordResult(wasCorrect: false, usedClue: true)
+            return
+        }
+        hasShownStrongClue = true
+        state = .awaitingRetry(clue: strongClue)
     }
 
     /// Every other country's real answers for the same field, so the matcher can tell a
@@ -90,5 +114,7 @@ final class QuizSession: ObservableObject {
     func advance() {
         currentIndex += 1
         state = .answering
+        hasShownHintClue = false
+        hasShownStrongClue = false
     }
 }
