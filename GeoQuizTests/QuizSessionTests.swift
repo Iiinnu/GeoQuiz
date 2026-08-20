@@ -84,8 +84,22 @@ final class QuizSessionTests: XCTestCase {
         XCTAssertEqual(session.state, .missed, "hint should be a no-op once the question is resolved")
     }
 
-    func testHintGivesRegionClueWrongGuessGivesStartsWithClue() {
+    func testCapitalsHintAndWrongGuessGiveTheSameCombinedClue() {
         let session = QuizSession(modes: [.capitals])
+        guard let question = session.currentQuestion else { return XCTFail("no question") }
+
+        session.requestHint()
+        guard case .awaitingRetry(let hintClue) = session.state else {
+            return XCTFail("expected clue state after requesting a hint")
+        }
+        XCTAssertEqual(hintClue, ClueProvider.combinedClue(for: question))
+
+        session.submit("definitely not the answer")
+        XCTAssertEqual(session.state, .missed, "one retry only — wrong after the hint ends the question")
+    }
+
+    func testFlagsHintGivesRegionClueWrongGuessGivesStartsWithClue() {
+        let session = QuizSession(modes: [.flags])
         guard let question = session.currentQuestion else { return XCTFail("no question") }
 
         session.requestHint()
@@ -98,8 +112,8 @@ final class QuizSessionTests: XCTestCase {
         XCTAssertEqual(session.state, .missed, "one retry only — wrong after the hint ends the question")
     }
 
-    func testWrongGuessWithoutHintGivesStartsWithClueNotRegionClue() {
-        let session = QuizSession(modes: [.capitals])
+    func testFlagsWrongGuessWithoutHintGivesStartsWithClueNotRegionClue() {
+        let session = QuizSession(modes: [.flags])
         guard let question = session.currentQuestion else { return XCTFail("no question") }
 
         session.submit("definitely not the answer")
