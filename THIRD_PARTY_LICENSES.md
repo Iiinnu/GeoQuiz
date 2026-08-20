@@ -38,3 +38,10 @@ sourced from Natural Earth), used under the Open Data Commons Public Domain Dedi
 and License (PDDL) — public domain, no attribution required. Coordinates were filtered
 to each country's significant landmasses, simplified, and normalized; see
 `GeoQuiz/Services/ContourData.swift` and `GeoQuiz/Views/ContourShape.swift`.
+
+## Country land-border data
+
+`GeoQuiz/Resources/BorderData.swift` (used for the Contours-mode wrong-guess clue) is
+also derived from the same `countries.geojson` — border adjacency was computed
+geometrically from the boundary polygons rather than sourced from a separate dataset.
+Same PDDL terms as above apply.

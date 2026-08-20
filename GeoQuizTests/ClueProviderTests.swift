@@ -63,4 +63,35 @@ final class ClueProviderTests: XCTestCase {
             XCTAssertFalse(clue.contains("Sweden"))
         }
     }
+
+    // MARK: Contours — hint gives region only, wrong guess names a real bordering country
+
+    func testContoursHintGivesRegionOnly() {
+        let question = Question(mode: .contours, country: sweden, target: .countryName)
+        let clue = ClueProvider.hintClue(for: question)
+        XCTAssertTrue(clue.contains("Europe"))
+    }
+
+    func testContoursWrongGuessNamesARealNeighbor() {
+        let question = Question(mode: .contours, country: sweden, target: .countryName)
+        let clue = ClueProvider.wrongGuessClue(for: question)
+        XCTAssertTrue(
+            clue.contains("Finland") || clue.contains("Norway"),
+            "expected Sweden's clue to name one of its real neighbors, got: \(clue)"
+        )
+        XCTAssertFalse(clue.contains("'S'"), "contours wrong-guess clue shouldn't fall back to the starting letter when a neighbor exists")
+    }
+
+    func testContoursFallsBackToStartsWithClueForIslandNations() {
+        let australia = Country(id: "AU", name: "Australia", capital: "Canberra", region: .oceania)
+        let question = Question(mode: .contours, country: australia, target: .countryName)
+        let clue = ClueProvider.wrongGuessClue(for: question)
+        XCTAssertEqual(clue, ClueProvider.startsWithClue(for: question))
+    }
+
+    func testBordersClueReturnsNilForIslandNations() {
+        let australia = Country(id: "AU", name: "Australia", capital: "Canberra", region: .oceania)
+        let question = Question(mode: .contours, country: australia, target: .countryName)
+        XCTAssertNil(ClueProvider.bordersClue(for: question))
+    }
 }

@@ -124,6 +124,35 @@ final class QuizSessionTests: XCTestCase {
         XCTAssertNotEqual(clue, ClueProvider.regionClue(for: question))
     }
 
+    func testContoursHintGivesRegionClueWrongGuessGivesBordersClue() {
+        let session = QuizSession(modes: [.contours])
+        guard let question = session.currentQuestion else { return XCTFail("no question") }
+
+        session.requestHint()
+        guard case .awaitingRetry(let hintClue) = session.state else {
+            return XCTFail("expected clue state after requesting a hint")
+        }
+        XCTAssertEqual(hintClue, ClueProvider.regionClue(for: question))
+
+        session.submit("definitely not the answer")
+        XCTAssertEqual(session.state, .missed, "one retry only — wrong after the hint ends the question")
+    }
+
+    func testContoursWrongGuessWithoutHintGivesBordersOrStartsWithClueNotRegionClue() {
+        let session = QuizSession(modes: [.contours])
+        guard let question = session.currentQuestion else { return XCTFail("no question") }
+
+        session.submit("definitely not the answer")
+        guard case .awaitingRetry(let clue) = session.state else {
+            return XCTFail("expected clue state")
+        }
+        let expected = ClueProvider.bordersClue(for: question) != nil
+            ? clue.contains("shares a border with")
+            : clue == ClueProvider.startsWithClue(for: question)
+        XCTAssertTrue(expected, "expected a borders clue (with a real neighbor) or a starts-with fallback, got: \(clue)")
+        XCTAssertNotEqual(clue, ClueProvider.regionClue(for: question))
+    }
+
     func testSessionHasTwentyQuestions() {
         let session = QuizSession(modes: [.capitals])
         XCTAssertEqual(session.totalCount, 20)

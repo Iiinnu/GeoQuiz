@@ -11,6 +11,7 @@
 		14DF2A5CD409D2F72B29D498 /* QuizSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A231A436A7ECD2965AD1FB6 /* QuizSessionTests.swift */; };
 		2A85BF1B040033F9CC11341C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1DB9B77511A7A63FC74A168 /* Assets.xcassets */; };
 		2AFB0CE27B5990FF847C0BFD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324794592EE2619B9E392719 /* ContentView.swift */; };
+		3DE2DEAB23664EC66B18749B /* BorderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6369F66C23562E9EA589CC83 /* BorderData.swift */; };
 		44ED90D675A41B151819AF4A /* ContourDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5481E1FCCAD7B0B2D2C1E82 /* ContourDataTests.swift */; };
 		58F2BDAC1A5FF56611E3509A /* ContourData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBAEC33338966386AF5C957 /* ContourData.swift */; };
 		6134F95F651D34238488313C /* ContourShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A60DC87166BCB50441F785 /* ContourShape.swift */; };
@@ -25,6 +26,7 @@
 		AC1FE12BBE9F7E6E7FF1D4DE /* CountryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C8077AEF3D1CF6B552A881 /* CountryData.swift */; };
 		AE59A44D19491ADA422DAD71 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76981060238AE5B5910E5E94 /* Country.swift */; };
 		BE43B9F8A6224D7B4842ECB8 /* ClueProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E794E062D04780F501E2C3 /* ClueProvider.swift */; };
+		C07E4229035DED6E9D18A1AB /* BorderDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261E317613DB3EB12A09E622 /* BorderDataTests.swift */; };
 		C9EB949E77A5D0C36920678C /* QuestionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF27C62BBF3CF9670255A2B /* QuestionFactory.swift */; };
 		D8FB250BD163D392D2E8FBC0 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965B009261BD86722E349CA8 /* Region.swift */; };
 		D9DBA6C9410D8D3C894896D8 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61655EA0848B994121E0A085 /* Question.swift */; };
@@ -49,11 +51,13 @@
 		0FA62C82C24A0F3A8690B747 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		12A60DC87166BCB50441F785 /* ContourShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContourShape.swift; sourceTree = "<group>"; };
 		24E794E062D04780F501E2C3 /* ClueProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClueProvider.swift; sourceTree = "<group>"; };
+		261E317613DB3EB12A09E622 /* BorderDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderDataTests.swift; sourceTree = "<group>"; };
 		324794592EE2619B9E392719 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		39C8077AEF3D1CF6B552A881 /* CountryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryData.swift; sourceTree = "<group>"; };
 		4213FCF20BB147E9B52C5C73 /* ClueProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClueProviderTests.swift; sourceTree = "<group>"; };
 		5FF27C62BBF3CF9670255A2B /* QuestionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactory.swift; sourceTree = "<group>"; };
 		61655EA0848B994121E0A085 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		6369F66C23562E9EA589CC83 /* BorderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderData.swift; sourceTree = "<group>"; };
 		689E277BD37701F743EA139E /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
 		76981060238AE5B5910E5E94 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		7A231A436A7ECD2965AD1FB6 /* QuizSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSessionTests.swift; sourceTree = "<group>"; };
@@ -88,6 +92,7 @@
 		480ABFCB721E6F2764BB2567 /* GeoQuizTests */ = {
 			isa = PBXGroup;
 			children = (
+				261E317613DB3EB12A09E622 /* BorderDataTests.swift */,
 				4213FCF20BB147E9B52C5C73 /* ClueProviderTests.swift */,
 				D5481E1FCCAD7B0B2D2C1E82 /* ContourDataTests.swift */,
 				AE96C24C277B85DD63995DA5 /* ContourShapeTests.swift */,
@@ -131,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				D1DB9B77511A7A63FC74A168 /* Assets.xcassets */,
+				6369F66C23562E9EA589CC83 /* BorderData.swift */,
 				D2955DD55EA93CDB658FFDA2 /* Contours.json */,
 				39C8077AEF3D1CF6B552A881 /* CountryData.swift */,
 			);
@@ -264,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DE2DEAB23664EC66B18749B /* BorderData.swift in Sources */,
 				BE43B9F8A6224D7B4842ECB8 /* ClueProvider.swift in Sources */,
 				2AFB0CE27B5990FF847C0BFD /* ContentView.swift in Sources */,
 				58F2BDAC1A5FF56611E3509A /* ContourData.swift in Sources */,
@@ -287,6 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C07E4229035DED6E9D18A1AB /* BorderDataTests.swift in Sources */,
 				8CC356A9681B1B80B7B30720 /* ClueProviderTests.swift in Sources */,
 				44ED90D675A41B151819AF4A /* ContourDataTests.swift in Sources */,
 				8B1DC252FC5FAE196485BA47 /* ContourShapeTests.swift in Sources */,
