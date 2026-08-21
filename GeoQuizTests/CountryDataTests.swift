@@ -55,4 +55,26 @@ final class CountryDataTests: XCTestCase {
             )
         }
     }
+
+    func testEveryCountryHasAPlausiblePopulation() {
+        for country in CountryData.all {
+            XCTAssertGreaterThan(country.populationMillions, 0, "\(country.name) needs a real population figure")
+            XCTAssertLessThan(country.populationMillions, 1_500, "\(country.name)'s population looks implausible")
+        }
+    }
+
+    func testAerialCityDefaultsToTheCapitalUnlessOverridden() {
+        for country in CountryData.all where country.id != "ZA" {
+            XCTAssertEqual(country.resolvedAerialCityName, country.capital)
+            XCTAssertEqual(country.resolvedAerialCityDescriptor, "the capital")
+            XCTAssertEqual(country.acceptableAerialCityAnswers, country.acceptableCapitalAnswers)
+        }
+    }
+
+    func testSouthAfricaAerialCityOverridesToCapeTown() {
+        let southAfrica = CountryData.all.first { $0.id == "ZA" }!
+        XCTAssertEqual(southAfrica.capital, "Pretoria", "Capitals mode should be unaffected by the Aerial override")
+        XCTAssertEqual(southAfrica.resolvedAerialCityName, "Cape Town")
+        XCTAssertTrue(southAfrica.acceptableAerialCityAnswers.contains("Cape Town"))
+    }
 }

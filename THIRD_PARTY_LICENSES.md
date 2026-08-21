@@ -57,4 +57,11 @@ data terms, this app displays the following attribution notice:
 
 Capital city coordinates used to center each crop come from `ne_10m_populated_places`
 in [natural-earth-vector](https://github.com/nvkelso/natural-earth-vector) (Natural
-Earth data, public domain, no attribution required).
+Earth data, public domain, no attribution required). South Africa's crop is centered
+on Cape Town instead, since its Aerial-mode question is about that city specifically
+(see `Country.aerialCityName`), not the capital used elsewhere.
+
+`Country.populationMillions` (used in Aerial mode's pre-answer hint) comes from the
+`POP_EST` field in `ne_10m_admin_0_countries`, same repo and license as above — figures
+are rounded to the nearest million and dated to that dataset's `POP_YEAR` (2019 as of
+this writing), not live-updated.

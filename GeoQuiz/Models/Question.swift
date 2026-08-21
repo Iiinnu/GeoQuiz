@@ -1,9 +1,13 @@
 import Foundation
 
-/// Which direction a Capitals question goes. Other modes always target `.countryName`.
+/// Which direction a Capitals question goes, or what Aerial mode is asking about.
+/// Flags/Contours always target `.countryName`.
 enum AnswerTarget {
     case countryName
     case capitalName
+    /// Aerial mode's answer: the city the satellite image is centered on (usually the
+    /// capital, but not always — see `Country.aerialCityName`).
+    case aerialCityName
 }
 
 /// One question in a session, mode-agnostic so future modes plug into the same flow.
@@ -16,12 +20,14 @@ struct Question: Identifiable {
     var promptText: String {
         switch mode {
         case .capitals:
-            switch target {
-            case .countryName: return "Which country has the capital \(country.capital)?"
-            case .capitalName: return "What is the capital of \(country.name)?"
-            }
-        case .flags, .contours, .aerial:
+            // target is always .countryName or .capitalName here (see QuestionFactory).
+            return target == .capitalName
+                ? "What is the capital of \(country.name)?"
+                : "Which country has the capital \(country.capital)?"
+        case .flags, .contours:
             return "Which country is this?"
+        case .aerial:
+            return "Which city is this?"
         }
     }
 
@@ -29,6 +35,7 @@ struct Question: Identifiable {
         switch target {
         case .countryName: return country.acceptableNameAnswers
         case .capitalName: return country.acceptableCapitalAnswers
+        case .aerialCityName: return country.acceptableAerialCityAnswers
         }
     }
 
@@ -37,6 +44,7 @@ struct Question: Identifiable {
         switch target {
         case .countryName: return country.name
         case .capitalName: return country.capital
+        case .aerialCityName: return country.resolvedAerialCityName
         }
     }
 }

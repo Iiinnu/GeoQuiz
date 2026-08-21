@@ -2,7 +2,7 @@ import XCTest
 @testable import GeoQuiz
 
 final class ClueProviderTests: XCTestCase {
-    private let sweden = Country(id: "SE", name: "Sweden", capital: "Stockholm", region: .europe)
+    private let sweden = Country(id: "SE", name: "Sweden", capital: "Stockholm", region: .europe, populationMillions: 10)
 
     // MARK: Capitals — hint gives letter count only, wrong guess gives starting letter only
 
@@ -81,15 +81,59 @@ final class ClueProviderTests: XCTestCase {
     }
 
     func testContoursFallsBackToStartsWithClueForIslandNations() {
-        let australia = Country(id: "AU", name: "Australia", capital: "Canberra", region: .oceania)
+        let australia = Country(id: "AU", name: "Australia", capital: "Canberra", region: .oceania, populationMillions: 25)
         let question = Question(mode: .contours, country: australia, target: .countryName)
         let clue = ClueProvider.wrongGuessClue(for: question)
         XCTAssertEqual(clue, ClueProvider.startsWithClue(for: question))
     }
 
     func testBordersClueReturnsNilForIslandNations() {
-        let australia = Country(id: "AU", name: "Australia", capital: "Canberra", region: .oceania)
+        let australia = Country(id: "AU", name: "Australia", capital: "Canberra", region: .oceania, populationMillions: 25)
         let question = Question(mode: .contours, country: australia, target: .countryName)
         XCTAssertNil(ClueProvider.bordersClue(for: question))
+    }
+
+    // MARK: Aerial — hint gives continent + population, wrong guess gives the city's starting letter
+
+    func testAerialHintGivesContinentAndPopulationPhrasedAroundTheCapital() {
+        let question = Question(mode: .aerial, country: sweden, target: .aerialCityName)
+        let clue = ClueProvider.hintClue(for: question)
+        XCTAssertEqual(clue, "Europe. This is the capital of the country with 10 million people living there.")
+    }
+
+    func testAerialWrongGuessGivesTheCitysStartingLetterNotTheCountrys() {
+        // Sweden: country starts with 'S', capital (Stockholm) also starts with 'S' —
+        // use a country where they differ to prove it's really the city's letter.
+        let egypt = Country(id: "EG", name: "Egypt", capital: "Cairo", region: .africa, populationMillions: 100)
+        let question = Question(mode: .aerial, country: egypt, target: .aerialCityName)
+        let clue = ClueProvider.wrongGuessClue(for: question)
+        XCTAssertEqual(clue, "The city starts with 'C'.")
+    }
+
+    func testAerialHintAndWrongGuessDiffer() {
+        let question = Question(mode: .aerial, country: sweden, target: .aerialCityName)
+        XCTAssertNotEqual(ClueProvider.hintClue(for: question), ClueProvider.wrongGuessClue(for: question))
+    }
+
+    func testAerialHintUsesTheOverriddenDescriptorAndCityWhenPresent() {
+        // Mirrors South Africa: capital is Pretoria, but the Aerial image (and hint) is
+        // about Cape Town.
+        let southAfrica = Country(
+            id: "ZA", name: "South Africa", capital: "Pretoria", region: .africa, populationMillions: 59,
+            aerialCityName: "Cape Town", aerialCityDescriptor: "a major city"
+        )
+        let question = Question(mode: .aerial, country: southAfrica, target: .aerialCityName)
+        XCTAssertEqual(
+            ClueProvider.hintClue(for: question),
+            "Africa. This is a major city of the country with 59 million people living there."
+        )
+        XCTAssertEqual(ClueProvider.wrongGuessClue(for: question), "The city starts with 'C'.")
+        XCTAssertEqual(question.primaryAnswer, "Cape Town")
+    }
+
+    func testAerialCluesDoNotRevealTheFullAnswer() {
+        let question = Question(mode: .aerial, country: sweden, target: .aerialCityName)
+        XCTAssertFalse(ClueProvider.hintClue(for: question).contains("Stockholm"))
+        XCTAssertFalse(ClueProvider.wrongGuessClue(for: question).contains("Stockholm"))
     }
 }

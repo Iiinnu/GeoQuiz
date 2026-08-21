@@ -15,9 +15,12 @@ enum QuestionFactory {
         let shuffledCountries = countries.shuffled().prefix(questionCount)
         let questions = shuffledCountries.enumerated().map { index, country -> Question in
             let mode = modesToUse[index % modesToUse.count]
-            let target: AnswerTarget = mode == .capitals
-                ? (Bool.random() ? .countryName : .capitalName)
-                : .countryName
+            let target: AnswerTarget
+            switch mode {
+            case .capitals: target = Bool.random() ? .countryName : .capitalName
+            case .aerial: target = .aerialCityName
+            case .flags, .contours: target = .countryName
+            }
             return Question(mode: mode, country: country, target: target)
         }
         return questions.shuffled()

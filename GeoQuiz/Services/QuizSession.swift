@@ -102,7 +102,13 @@ final class QuizSession: ObservableObject {
     private func distractorAnswers(for question: Question) -> [String] {
         CountryData.all
             .filter { $0.id != question.country.id }
-            .flatMap { question.target == .countryName ? $0.acceptableNameAnswers : $0.acceptableCapitalAnswers }
+            .flatMap { other -> [String] in
+                switch question.target {
+                case .countryName: return other.acceptableNameAnswers
+                case .capitalName: return other.acceptableCapitalAnswers
+                case .aerialCityName: return other.acceptableAerialCityAnswers
+                }
+            }
     }
 
     private func recordResult(wasCorrect: Bool, usedClue: Bool) {

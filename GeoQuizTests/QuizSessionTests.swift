@@ -203,6 +203,47 @@ final class QuizSessionTests: XCTestCase {
         XCTAssertNotEqual(clue, ClueProvider.regionClue(for: question))
     }
 
+    func testAerialHintThenWrongEscalatesToStartsWithClueInsteadOfMissing() {
+        let session = QuizSession(modes: [.aerial])
+        guard let question = session.currentQuestion else { return XCTFail("no question") }
+        XCTAssertEqual(question.target, .aerialCityName)
+
+        session.requestHint()
+        guard case .awaitingRetry(let hintClue) = session.state else {
+            return XCTFail("expected clue state after requesting a hint")
+        }
+        XCTAssertEqual(hintClue, ClueProvider.continentPopulationClue(for: question))
+
+        session.submit("definitely not the answer")
+        guard case .awaitingRetry(let secondClue) = session.state else {
+            return XCTFail("expected a second, stronger clue instead of missing")
+        }
+        XCTAssertEqual(secondClue, ClueProvider.startsWithClue(for: question))
+
+        session.submit("still not the answer")
+        XCTAssertEqual(session.state, .missed)
+    }
+
+    func testAerialCorrectAnswerMatchesTheCityNotTheCountry() {
+        let session = QuizSession(modes: [.aerial])
+        guard let question = session.currentQuestion else { return XCTFail("no question") }
+
+        // The country name alone shouldn't count as correct for an Aerial question.
+        session.submit(question.country.name)
+        XCTAssertNotEqual(session.state, .correct)
+    }
+
+    func testAerialFinishesAfterAllQuestionsAnsweringWithTheCityName() {
+        let session = QuizSession(modes: [.aerial])
+        for _ in 0..<session.totalCount {
+            guard let question = session.currentQuestion else { break }
+            session.submit(question.primaryAnswer)
+            session.advance()
+        }
+        XCTAssertTrue(session.isFinished)
+        XCTAssertEqual(session.score, session.totalCount)
+    }
+
     func testSessionHasTwentyQuestions() {
         let session = QuizSession(modes: [.capitals])
         XCTAssertEqual(session.totalCount, 20)

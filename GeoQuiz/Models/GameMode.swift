@@ -22,7 +22,7 @@ enum GameMode: String, CaseIterable, Identifiable, Codable {
         case .capitals: return "Type the capital, or the country"
         case .flags: return "Name the country from its flag"
         case .contours: return "Name the country from its outline"
-        case .aerial: return "Name the country from a satellite view"
+        case .aerial: return "Name the city from a satellite view"
         }
     }
 
