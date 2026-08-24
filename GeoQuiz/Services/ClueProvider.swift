@@ -40,12 +40,14 @@ enum ClueProvider {
 
     /// Aerial mode's pre-answer hint: continent plus country population, phrased around
     /// whatever the pictured city actually is (usually "the capital", occasionally
-    /// something else — see `Country.aerialCityName`).
+    /// something else — see `Country.aerialCityName`). The population figure is attached
+    /// directly to "a country", not left as a dangling "living there" that could be
+    /// misread as describing the city itself.
     static func continentPopulationClue(for question: Question) -> String {
         let continent = question.country.region.rawValue
         let population = question.country.populationMillions
         let descriptor = question.country.resolvedAerialCityDescriptor
-        return "\(continent). This is \(descriptor) of the country with \(population) million people living there."
+        return "\(continent). It's \(descriptor) of a country with \(population) million people."
     }
 
     static func startsWithClue(for question: Question) -> String {

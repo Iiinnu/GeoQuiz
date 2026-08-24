@@ -98,7 +98,7 @@ final class ClueProviderTests: XCTestCase {
     func testAerialHintGivesContinentAndPopulationPhrasedAroundTheCapital() {
         let question = Question(mode: .aerial, country: sweden, target: .aerialCityName)
         let clue = ClueProvider.hintClue(for: question)
-        XCTAssertEqual(clue, "Europe. This is the capital of the country with 10 million people living there.")
+        XCTAssertEqual(clue, "Europe. It's the capital of a country with 10 million people.")
     }
 
     func testAerialWrongGuessGivesTheCitysStartingLetterNotTheCountrys() {
@@ -125,7 +125,7 @@ final class ClueProviderTests: XCTestCase {
         let question = Question(mode: .aerial, country: southAfrica, target: .aerialCityName)
         XCTAssertEqual(
             ClueProvider.hintClue(for: question),
-            "Africa. This is a major city of the country with 59 million people living there."
+            "Africa. It's a major city of a country with 59 million people."
         )
         XCTAssertEqual(ClueProvider.wrongGuessClue(for: question), "The city starts with 'C'.")
         XCTAssertEqual(question.primaryAnswer, "Cape Town")
