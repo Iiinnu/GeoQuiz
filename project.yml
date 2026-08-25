@@ -22,7 +22,7 @@ targets:
           - UIInterfaceOrientationPortrait
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.geoquiz.app
+        PRODUCT_BUNDLE_IDENTIFIER: com.iiinnu.geoquiz
         TARGETED_DEVICE_FAMILY: "1"
         MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"

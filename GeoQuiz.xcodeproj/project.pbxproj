@@ -16,6 +16,7 @@
 		58F2BDAC1A5FF56611E3509A /* ContourData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBAEC33338966386AF5C957 /* ContourData.swift */; };
 		6134F95F651D34238488313C /* ContourShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A60DC87166BCB50441F785 /* ContourShape.swift */; };
 		61496D998D7220BC9D7A7251 /* CountryDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D6F16B7A7F7B0836DF8360 /* CountryDataTests.swift */; };
+		66B53ACA5D4A47344D0DA423 /* ZoomableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141E94EDF3227E5E6B304190 /* ZoomableImageView.swift */; };
 		77DAEC7D21853E01890EFC61 /* FuzzyMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE3D194C2F6D9DFEC5B930 /* FuzzyMatcherTests.swift */; };
 		83C29F4E14713870BFDCE220 /* FuzzyMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F6C55B75CDFC081E5773E6 /* FuzzyMatcher.swift */; };
 		84A007B84046DE599F72D7A0 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA62C82C24A0F3A8690B747 /* QuizView.swift */; };
@@ -50,6 +51,7 @@
 		0517E1B28FB8EF6D08D33EBD /* QuizSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSession.swift; sourceTree = "<group>"; };
 		0FA62C82C24A0F3A8690B747 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		12A60DC87166BCB50441F785 /* ContourShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContourShape.swift; sourceTree = "<group>"; };
+		141E94EDF3227E5E6B304190 /* ZoomableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableImageView.swift; sourceTree = "<group>"; };
 		24E794E062D04780F501E2C3 /* ClueProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClueProvider.swift; sourceTree = "<group>"; };
 		261E317613DB3EB12A09E622 /* BorderDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderDataTests.swift; sourceTree = "<group>"; };
 		324794592EE2619B9E392719 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				B37AED1D5C20B8B25CC3D32D /* ModePickerView.swift */,
 				0FA62C82C24A0F3A8690B747 /* QuizView.swift */,
 				689E277BD37701F743EA139E /* ResultsView.swift */,
+				141E94EDF3227E5E6B304190 /* ZoomableImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				84A007B84046DE599F72D7A0 /* QuizView.swift in Sources */,
 				D8FB250BD163D392D2E8FBC0 /* Region.swift in Sources */,
 				A9F0BA26DB256D5C0B1D8473 /* ResultsView.swift in Sources */,
+				66B53ACA5D4A47344D0DA423 /* ZoomableImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +423,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.geoquiz.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iiinnu.geoquiz;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -437,7 +441,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.geoquiz.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iiinnu.geoquiz;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -115,6 +115,8 @@ struct QuizView: View {
 private struct QuestionMediaView: View {
     let question: Question
 
+    @State private var isShowingFullscreenImage = false
+
     var body: some View {
         switch question.mode {
         case .capitals:
@@ -132,13 +134,27 @@ private struct QuestionMediaView: View {
         case .aerial:
             if let assetName = question.country.aerialImageRef {
                 VStack(spacing: 4) {
-                    Image(assetName)
-                        .resizable()
-                        .aspectRatio(1.0, contentMode: .fit)
-                        .frame(maxWidth: 280, maxHeight: 280)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay(cardBorder)
-                        .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+                    Button {
+                        isShowingFullscreenImage = true
+                    } label: {
+                        ZStack(alignment: .bottomTrailing) {
+                            Image(assetName)
+                                .resizable()
+                                .aspectRatio(1.0, contentMode: .fit)
+                                .frame(maxWidth: 280, maxHeight: 280)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .overlay(cardBorder)
+                                .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+
+                            Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                .font(.caption)
+                                .padding(6)
+                                .background(.black.opacity(0.5), in: Circle())
+                                .foregroundStyle(.white)
+                                .padding(8)
+                        }
+                    }
+                    .buttonStyle(.plain)
 
                     // Required by the Copernicus data terms wherever Sentinel data is
                     // displayed, not just in project docs — this is what an end user of
@@ -146,6 +162,9 @@ private struct QuestionMediaView: View {
                     Text("Contains modified Copernicus Sentinel data")
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
+                }
+                .fullScreenCover(isPresented: $isShowingFullscreenImage) {
+                    ZoomableImageView(assetName: assetName)
                 }
             }
         case .contours:
