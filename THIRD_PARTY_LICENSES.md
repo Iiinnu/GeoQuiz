@@ -50,8 +50,10 @@ Same PDDL terms as above apply.
 
 The images in `GeoQuiz/Resources/Assets.xcassets` (`aerial_*.imageset`) are true-color
 crops generated from Sentinel-2 L2A data via the Copernicus Data Space Ecosystem's
-Sentinel Hub Process API, centered on each country's capital city. Per the Copernicus
-data terms, this app displays the following attribution notice:
+Sentinel Hub Process API, centered on each country's capital city in a fixed ~30km-wide
+box (tightened from an initial ~50km after product review — the wider crop felt too
+zoomed-out to make out street-level detail on-screen). Per the Copernicus data terms,
+this app displays the following attribution notice:
 
 > Contains modified Copernicus Sentinel data (2025–2026)
 
