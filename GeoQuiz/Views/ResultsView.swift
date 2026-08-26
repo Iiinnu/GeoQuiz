@@ -8,10 +8,14 @@ struct ResultsView: View {
         session.results.filter { !$0.wasCorrect }
     }
 
+    private var correctCount: Int {
+        session.results.filter(\.wasCorrect).count
+    }
+
     var body: some View {
         VStack(spacing: 20) {
             VStack(spacing: 4) {
-                Text("\(session.score) / \(session.totalCount)")
+                Text("\(session.score) / \(session.maxScore)")
                     .font(.system(size: 48, weight: .bold, design: .rounded))
                 Text(summaryLine)
                     .font(.subheadline)
@@ -58,7 +62,7 @@ struct ResultsView: View {
     }
 
     private var summaryLine: String {
-        let percent = session.totalCount == 0 ? 0 : Int((Double(session.score) / Double(session.totalCount)) * 100)
+        let percent = session.totalCount == 0 ? 0 : Int((Double(correctCount) / Double(session.totalCount)) * 100)
         return "\(percent)% correct"
     }
 }

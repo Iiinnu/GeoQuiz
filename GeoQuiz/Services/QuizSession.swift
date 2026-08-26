@@ -16,11 +16,13 @@ struct QuestionResult: Identifiable {
     let id = UUID()
     let question: Question
     let wasCorrect: Bool
-    let usedClue: Bool
+    let pointsEarned: Int
 }
 
 @MainActor
 final class QuizSession: ObservableObject {
+    static let maxPointsPerQuestion = 3
+
     let questions: [Question]
 
     @Published private(set) var currentIndex = 0
@@ -40,7 +42,8 @@ final class QuizSession: ObservableObject {
 
     var isFinished: Bool { currentIndex >= questions.count }
 
-    var score: Int { results.filter(\.wasCorrect).count }
+    var score: Int { results.reduce(0) { $0 + $1.pointsEarned } }
+    var maxScore: Int { questions.count * Self.maxPointsPerQuestion }
     var totalCount: Int { questions.count }
 
     /// Submits the player's current text input for grading.
@@ -57,7 +60,7 @@ final class QuizSession: ObservableObject {
         switch state {
         case .answering, .awaitingRetry:
             if isMatch {
-                recordResult(wasCorrect: true, usedClue: hasShownHintClue || hasShownStrongClue)
+                recordResult(wasCorrect: true)
             } else {
                 advanceToNextClueOrMiss(for: question)
             }
@@ -83,12 +86,12 @@ final class QuizSession: ObservableObject {
     /// reuses the same text for both.
     private func advanceToNextClueOrMiss(for question: Question) {
         guard !hasShownStrongClue else {
-            recordResult(wasCorrect: false, usedClue: true)
+            recordResult(wasCorrect: false)
             return
         }
         let strongClue = ClueProvider.wrongGuessClue(for: question)
         if hasShownHintClue && strongClue == ClueProvider.hintClue(for: question) {
-            recordResult(wasCorrect: false, usedClue: true)
+            recordResult(wasCorrect: false)
             return
         }
         hasShownStrongClue = true
@@ -111,10 +114,23 @@ final class QuizSession: ObservableObject {
             }
     }
 
-    private func recordResult(wasCorrect: Bool, usedClue: Bool) {
+    /// Points reflect how much help was needed: 3 for a first-try correct answer, 2 if the
+    /// pre-answer hint was used but no guess was ever wrong, 1 if a wrong guess required the
+    /// stronger post-wrong-answer clue (even if the hint was also used earlier), 0 if missed.
+    private func recordResult(wasCorrect: Bool) {
         guard let question = currentQuestion else { return }
         state = wasCorrect ? .correct : .missed
-        results.append(QuestionResult(question: question, wasCorrect: wasCorrect, usedClue: usedClue))
+        let points: Int
+        if !wasCorrect {
+            points = 0
+        } else if hasShownStrongClue {
+            points = 1
+        } else if hasShownHintClue {
+            points = 2
+        } else {
+            points = 3
+        }
+        results.append(QuestionResult(question: question, wasCorrect: wasCorrect, pointsEarned: points))
     }
 
     /// Advances to the next question after a correct/missed result has been shown.

@@ -9,14 +9,14 @@ final class QuizSessionTests: XCTestCase {
 
         session.submit(question.primaryAnswer)
         XCTAssertEqual(session.state, .correct)
-        XCTAssertEqual(session.score, 1)
+        XCTAssertEqual(session.score, 3, "first-try correct with no help earns full points")
 
         session.advance()
         XCTAssertEqual(session.currentIndex, 1)
         XCTAssertEqual(session.state, .answering)
     }
 
-    func testWrongThenClueThenCorrectCountsAsCorrect() {
+    func testWrongThenClueThenCorrectScoresOnePoint() {
         let session = QuizSession(modes: [.capitals])
         guard let question = session.currentQuestion else { return XCTFail("no question") }
 
@@ -29,7 +29,7 @@ final class QuizSessionTests: XCTestCase {
         session.submit(question.primaryAnswer)
         XCTAssertEqual(session.state, .correct)
         XCTAssertEqual(session.score, 1)
-        XCTAssertEqual(session.results.first?.usedClue, true)
+        XCTAssertEqual(session.results.first?.pointsEarned, 1)
     }
 
     func testWrongTwiceIsMissed() {
@@ -52,7 +52,7 @@ final class QuizSessionTests: XCTestCase {
         XCTAssertEqual(session.results.count, 0, "requesting a hint shouldn't record a result by itself")
     }
 
-    func testCorrectAnswerAfterHintStillCountsAsCorrect() {
+    func testCorrectAnswerAfterHintScoresTwoPoints() {
         let session = QuizSession(modes: [.capitals])
         guard let question = session.currentQuestion else { return XCTFail("no question") }
 
@@ -60,8 +60,26 @@ final class QuizSessionTests: XCTestCase {
         session.submit(question.primaryAnswer)
 
         XCTAssertEqual(session.state, .correct)
-        XCTAssertEqual(session.score, 1)
-        XCTAssertEqual(session.results.first?.usedClue, true)
+        XCTAssertEqual(session.score, 2, "using the pre-answer hint (without ever guessing wrong) costs one point")
+        XCTAssertEqual(session.results.first?.pointsEarned, 2)
+    }
+
+    func testHintThenWrongThenCorrectScoresOnePointNotTwo() {
+        let session = QuizSession(modes: [.capitals])
+        guard let question = session.currentQuestion else { return XCTFail("no question") }
+
+        session.requestHint()
+        session.submit("definitely not the answer")
+        guard case .awaitingRetry = session.state else {
+            return XCTFail("expected the escalated post-wrong-answer clue")
+        }
+
+        session.submit(question.primaryAnswer)
+        XCTAssertEqual(session.state, .correct)
+        XCTAssertEqual(
+            session.score, 1,
+            "needing the post-wrong-answer clue caps the score at 1, even if the hint was also used earlier"
+        )
     }
 
     func testHintDoesNothingOnceAlreadyShowingAClueOrResolved() {
@@ -241,12 +259,18 @@ final class QuizSessionTests: XCTestCase {
             session.advance()
         }
         XCTAssertTrue(session.isFinished)
-        XCTAssertEqual(session.score, session.totalCount)
+        XCTAssertEqual(session.score, session.maxScore, "all first-try correct answers should earn full points")
     }
 
     func testSessionHasTwentyQuestions() {
         let session = QuizSession(modes: [.capitals])
         XCTAssertEqual(session.totalCount, 20)
+    }
+
+    func testMaxScoreIsThreeTimesTotalCount() {
+        let session = QuizSession(modes: [.capitals])
+        XCTAssertEqual(session.maxScore, session.totalCount * 3)
+        XCTAssertEqual(session.maxScore, 60)
     }
 
     func testFinishesAfterAllQuestions() {
@@ -257,6 +281,6 @@ final class QuizSessionTests: XCTestCase {
             session.advance()
         }
         XCTAssertTrue(session.isFinished)
-        XCTAssertEqual(session.score, session.totalCount)
+        XCTAssertEqual(session.score, session.maxScore, "all first-try correct answers should earn full points")
     }
 }
