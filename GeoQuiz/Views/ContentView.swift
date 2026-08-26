@@ -6,7 +6,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            ModePickerView { modes in
+            HomeView { modes in
                 let newSession = QuizSession(modes: modes)
                 session = newSession
                 showResults = false
