@@ -22,6 +22,8 @@ struct QuestionResult: Identifiable {
 @MainActor
 final class QuizSession: ObservableObject {
     static let maxPointsPerQuestion = 3
+    static let questionsPerRound = 20
+    static let maxPossibleRoundScore = maxPointsPerQuestion * questionsPerRound
 
     let questions: [Question]
 
@@ -32,8 +34,12 @@ final class QuizSession: ObservableObject {
     private var hasShownHintClue = false
     private var hasShownStrongClue = false
 
-    init(modes: Set<GameMode>) {
-        self.questions = QuestionFactory.makeSession(modes: modes)
+    init(modes: Set<GameMode>, excludedCountryIDs: [GameMode: Set<String>] = [:]) {
+        self.questions = QuestionFactory.makeSession(
+            modes: modes,
+            questionCount: Self.questionsPerRound,
+            excludedCountryIDs: excludedCountryIDs
+        )
     }
 
     var currentQuestion: Question? {
@@ -45,6 +51,26 @@ final class QuizSession: ObservableObject {
     var score: Int { results.reduce(0) { $0 + $1.pointsEarned } }
     var maxScore: Int { questions.count * Self.maxPointsPerQuestion }
     var totalCount: Int { questions.count }
+
+    /// Every country this round will ask about (or already has), grouped by mode — used to
+    /// mark them as "asked" in `GameStatsStore` so they aren't repeated until the rest of
+    /// that mode's pool has been cycled through.
+    var countryIDsByMode: [GameMode: [String]] {
+        Dictionary(grouping: questions, by: \.mode).mapValues { $0.map { $0.country.id } }
+    }
+
+    /// This round's points and question count per mode, folded into `GameStatsStore`'s
+    /// running per-mode totals once the round finishes.
+    var perModePointsTally: [GameMode: (points: Int, count: Int)] {
+        var tally: [GameMode: (points: Int, count: Int)] = [:]
+        for result in results {
+            var entry = tally[result.question.mode] ?? (points: 0, count: 0)
+            entry.points += result.pointsEarned
+            entry.count += 1
+            tally[result.question.mode] = entry
+        }
+        return tally
+    }
 
     /// Submits the player's current text input for grading.
     func submit(_ input: String) {

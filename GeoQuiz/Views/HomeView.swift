@@ -1,3 +1,4 @@
+import SwiftData
 import SwiftUI
 
 /// The app's landing screen, shown before the mode-picker. `onStartQuiz` is forwarded
@@ -6,6 +7,12 @@ struct HomeView: View {
     let onStartQuiz: (Set<GameMode>) -> Void
 
     @State private var showHowToPlay = false
+
+    @Query private var highScores: [HighScoreRecord]
+    @Query private var modeStats: [ModeStatRecord]
+
+    private var bestScore: Int { highScores.first?.bestScore ?? 0 }
+    private var strongestCategory: GameMode? { modeStats.strongestCategory() }
 
     var body: some View {
         VStack(spacing: 28) {
@@ -17,6 +24,18 @@ struct HomeView: View {
                 .foregroundStyle(Theme.accent)
 
             GlobeView()
+
+            if bestScore > 0 {
+                VStack(spacing: 2) {
+                    Text("Best score: \(bestScore) / \(QuizSession.maxPossibleRoundScore)")
+                        .font(.subheadline.weight(.semibold))
+                    if let strongestCategory {
+                        Text("Your strongest category is \(strongestCategory.displayName)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
 
             Spacer()
 
@@ -56,4 +75,5 @@ struct HomeView: View {
     NavigationStack {
         HomeView(onStartQuiz: { _ in })
     }
+    .modelContainer(for: [HighScoreRecord.self, ModeStatRecord.self, AskedQuestionRecord.self], inMemory: true)
 }

@@ -1,8 +1,13 @@
+import SwiftData
 import SwiftUI
 
 struct ResultsView: View {
     let session: QuizSession
+    let isNewHighScore: Bool
     let onRestart: () -> Void
+
+    @Query private var highScores: [HighScoreRecord]
+    @Query private var modeStats: [ModeStatRecord]
 
     private var missed: [QuestionResult] {
         session.results.filter { !$0.wasCorrect }
@@ -12,6 +17,9 @@ struct ResultsView: View {
         session.results.filter(\.wasCorrect).count
     }
 
+    private var bestScore: Int { highScores.first?.bestScore ?? 0 }
+    private var strongestCategory: GameMode? { modeStats.strongestCategory() }
+
     var body: some View {
         VStack(spacing: 20) {
             VStack(spacing: 4) {
@@ -20,6 +28,21 @@ struct ResultsView: View {
                 Text(summaryLine)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+
+                if isNewHighScore {
+                    Label("New high score!", systemImage: "trophy.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.hint)
+                } else {
+                    Text("Best: \(bestScore) / \(session.maxScore)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                if let strongestCategory {
+                    Text("Strongest category: \(strongestCategory.displayName)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
             .padding(.top, 24)
 

@@ -7,5 +7,6 @@ struct GeoQuizApp: App {
             ContentView()
                 .preferredColorScheme(.light)
         }
+        .modelContainer(for: [HighScoreRecord.self, ModeStatRecord.self, AskedQuestionRecord.self])
     }
 }
