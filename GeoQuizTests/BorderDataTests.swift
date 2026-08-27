@@ -47,4 +47,30 @@ final class BorderDataTests: XCTestCase {
             XCTAssertFalse(BorderData.neighbors[country.id]?.contains(country.name) ?? false)
         }
     }
+
+    // MARK: - South America/Asia/Africa expansion
+
+    func testExpansionCountriesHaveKnownLandBorders() {
+        XCTAssertTrue(BorderData.neighbors["BO"]?.contains("Peru") ?? false)
+        XCTAssertTrue(BorderData.neighbors["VE"]?.contains("Colombia") ?? false)
+        XCTAssertTrue(BorderData.neighbors["CD"]?.contains("Angola") ?? false)
+        XCTAssertTrue(BorderData.neighbors["TZ"]?.contains("Kenya") ?? false)
+        XCTAssertTrue(BorderData.neighbors["IR"]?.contains("Turkey") ?? false)
+    }
+
+    func testSingaporeAndMalaysiaAreNotListedAsBorderingEachOther() {
+        // They're separated by the Johor Strait, not an actual land border — same
+        // treatment as other close-but-water-separated pairs (e.g. GB/France).
+        XCTAssertFalse(BorderData.neighbors["SG"]?.contains("Malaysia") ?? false)
+        XCTAssertFalse(BorderData.neighbors["MY"]?.contains("Singapore") ?? false)
+        XCTAssertEqual(BorderData.neighbors["SG"], [], "Singapore is an island city-state with no land border")
+    }
+
+    func testDemocraticRepublicOfCongoDistinguishesFromRepublicOfCongo() {
+        // Two real, distinct countries — the neighbor list must name the non-playable one
+        // unambiguously rather than a bare "Congo".
+        let drc = BorderData.neighbors["CD"] ?? []
+        XCTAssertTrue(drc.contains("Republic of the Congo"))
+        XCTAssertFalse(drc.contains("Congo"))
+    }
 }

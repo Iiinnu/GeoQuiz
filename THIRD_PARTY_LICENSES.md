@@ -57,13 +57,27 @@ this app displays the following attribution notice:
 
 > Contains modified Copernicus Sentinel data (2025–2026)
 
-Capital city coordinates used to center each crop come from `ne_10m_populated_places`
+Capital city coordinates for the original 58 countries come from `ne_10m_populated_places`
 in [natural-earth-vector](https://github.com/nvkelso/natural-earth-vector) (Natural
 Earth data, public domain, no attribution required). South Africa's crop is centered
 on Cape Town instead, since its Aerial-mode question is about that city specifically
-(see `Country.aerialCityName`), not the capital used elsewhere.
+(see `Country.aerialCityName`), not the capital used elsewhere. Tanzania has the same
+kind of override, centered on Dar es Salaam rather than the official capital, Dodoma.
 
 `Country.populationMillions` (used in Aerial mode's pre-answer hint) comes from the
-`POP_EST` field in `ne_10m_admin_0_countries`, same repo and license as above — figures
-are rounded to the nearest million and dated to that dataset's `POP_YEAR` (2019 as of
-this writing), not live-updated.
+`POP_EST` field in `ne_10m_admin_0_countries`, same repo and license as above, for the
+original 58 countries — figures are rounded to the nearest million and dated to that
+dataset's `POP_YEAR` (2019 as of this writing), not live-updated.
+
+### South America/Asia/Africa expansion (18 countries)
+
+Venezuela, Ecuador, Uruguay, Bolivia, Iran, Malaysia, Singapore, Bangladesh, Sri Lanka,
+United Arab Emirates, Mongolia, Algeria, Ethiopia, Ghana, Tanzania, Zimbabwe, Senegal,
+and Democratic Republic of Congo were added the same way — flags from flag-icons,
+contours from datasets/geo-countries, satellite crops from the same Sentinel Hub
+pipeline. Two differences worth noting: capital-city coordinates for these 18 were
+looked up directly rather than pulled from the `ne_10m_populated_places` file, and
+`populationMillions` figures are general current estimates rather than sourced from
+`ne_10m_admin_0_countries`'s `POP_EST` field — both are close enough for the app's
+purposes (a hint and a fuzzy-match target, not a cited statistic) but aren't from the
+exact same dataset/vintage as the original 58.

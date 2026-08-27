@@ -1,8 +1,9 @@
 import Foundation
 
-/// Curated Phase 1 dataset: G20 + EU members + a spread of other major countries per
-/// continent (~58 total). All game modes read from this single list. Expanding to the
-/// full ~195 UN member set later is additive — just append `Country` entries here.
+/// Curated dataset: G20 + EU members + a spread of other major countries per continent
+/// (76 total as of the South America/Asia/Africa expansion below). All game modes read
+/// from this single list. Expanding to the full ~195 UN member set later is additive —
+/// just append `Country` entries here.
 enum CountryData {
     /// Flag/aerial asset names follow "flag_<id>"/"aerial_<id>" and contour lookup keys
     /// are just `id` itself — all derived here rather than repeated 58 times. See
@@ -100,5 +101,49 @@ enum CountryData {
         // Oceania
         Country(id: "AU", name: "Australia", capital: "Canberra", region: .oceania, populationMillions: 25),
         Country(id: "NZ", name: "New Zealand", capital: "Wellington", region: .oceania, populationMillions: 5),
+
+        // --- Added: 18-country expansion (South America, Asia, Africa) ---
+
+        // South America
+        Country(id: "VE", name: "Venezuela", capital: "Caracas", region: .southAmerica, populationMillions: 28),
+        Country(id: "EC", name: "Ecuador", capital: "Quito", region: .southAmerica, populationMillions: 18),
+        Country(id: "UY", name: "Uruguay", capital: "Montevideo", region: .southAmerica, populationMillions: 3),
+        // Bolivia has two capitals: La Paz (seat of government, most commonly given as
+        // "the" answer) and Sucre (constitutional/judicial capital) — both accepted.
+        Country(id: "BO", name: "Bolivia", capital: "La Paz", region: .southAmerica, populationMillions: 12,
+                capitalAliases: ["Sucre"]),
+
+        // Asia
+        Country(id: "IR", name: "Iran", capital: "Tehran", region: .asia, populationMillions: 87,
+                nameAliases: ["Persia"]),
+        Country(id: "MY", name: "Malaysia", capital: "Kuala Lumpur", region: .asia, populationMillions: 33,
+                capitalAliases: ["KL"]),
+        Country(id: "SG", name: "Singapore", capital: "Singapore", region: .asia, populationMillions: 6),
+        Country(id: "BD", name: "Bangladesh", capital: "Dhaka", region: .asia, populationMillions: 165,
+                capitalAliases: ["Dacca"]),
+        // Colombo is the commercial capital and far better known/recognized than the
+        // official legislative capital, Sri Jayawardenepura Kotte — used as the primary
+        // answer here, with the official name accepted as an alias.
+        Country(id: "LK", name: "Sri Lanka", capital: "Colombo", region: .asia, populationMillions: 22,
+                nameAliases: ["Ceylon"], capitalAliases: ["Sri Jayawardenepura Kotte", "Kotte"]),
+        Country(id: "AE", name: "United Arab Emirates", capital: "Abu Dhabi", region: .asia, populationMillions: 10,
+                nameAliases: ["UAE", "Emirates"]),
+        Country(id: "MN", name: "Mongolia", capital: "Ulaanbaatar", region: .asia, populationMillions: 3,
+                capitalAliases: ["Ulan Bator"]),
+
+        // Africa
+        Country(id: "DZ", name: "Algeria", capital: "Algiers", region: .africa, populationMillions: 44),
+        Country(id: "ET", name: "Ethiopia", capital: "Addis Ababa", region: .africa, populationMillions: 118),
+        Country(id: "GH", name: "Ghana", capital: "Accra", region: .africa, populationMillions: 32),
+        // Tanzania's official capital is Dodoma, but Dar es Salaam is the largest city
+        // and where most government/international activity still is — accepted as an
+        // alternate answer, and used for the Aerial-mode image/hint since it's the far
+        // more recognizable city (same pattern as South Africa/Cape Town above).
+        Country(id: "TZ", name: "Tanzania", capital: "Dodoma", region: .africa, populationMillions: 63,
+                capitalAliases: ["Dar es Salaam"], aerialCityName: "Dar es Salaam", aerialCityDescriptor: "the largest city"),
+        Country(id: "ZW", name: "Zimbabwe", capital: "Harare", region: .africa, populationMillions: 15),
+        Country(id: "SN", name: "Senegal", capital: "Dakar", region: .africa, populationMillions: 17),
+        Country(id: "CD", name: "Democratic Republic of Congo", capital: "Kinshasa", region: .africa, populationMillions: 99,
+                nameAliases: ["DR Congo", "DRC", "Congo-Kinshasa", "Democratic Republic of the Congo"]),
     ]
 }

@@ -1,22 +1,27 @@
 import Foundation
 
-/// Real land-border neighbors for each of our 58 countries, derived from
-/// datasets/geo-countries boundary geometry (see the Phase 3 pipeline). Used by
-/// ClueProvider for the Contours-mode wrong-guess clue. Deliberately excludes
-/// non-sovereign entries (Hong Kong/Macao are part of China, not neighbors of it)
-/// and a dataset quirk that would have called Taiwan a China border (they don't
-/// share one) — see build_borders.py for the full reasoning. Countries with no land
-/// border (island nations) simply have an empty list; ClueProvider falls back to the
-/// starts-with clue for those.
+/// Real land-border neighbors for each of our 76 countries, derived from
+/// datasets/geo-countries boundary geometry (see the Phase 3 pipeline, extended for the
+/// South America/Asia/Africa expansion). Used by ClueProvider for the Contours-mode
+/// wrong-guess clue. Deliberately excludes non-sovereign entries (Hong Kong/Macao are
+/// part of China, not neighbors of it) and dataset quirks that would call two countries
+/// neighbors despite being separated by water (e.g. Taiwan/China; Singapore/Malaysia,
+/// split only by the Johor Strait) — see build_borders.py for the full reasoning.
+/// Countries with no land border (island nations) simply have an empty list;
+/// ClueProvider falls back to the starts-with clue for those.
 enum BorderData {
     static let neighbors: [String: [String]] = [
+        "AE": ["Oman", "Saudi Arabia"],
         "AR": ["Bolivia", "Brazil", "Chile", "Paraguay", "Uruguay"],
         "AT": ["Czechia", "Germany", "Hungary", "Italy", "Liechtenstein", "Slovakia", "Slovenia", "Switzerland"],
         "AU": [],
+        "BD": ["India", "Myanmar"],
         "BE": ["France", "Germany", "Luxembourg", "Netherlands"],
         "BG": ["Greece", "North Macedonia", "Serbia", "Romania", "Turkey"],
+        "BO": ["Argentina", "Brazil", "Chile", "Paraguay", "Peru"],
         "BR": ["Argentina", "Bolivia", "Colombia", "Guyana", "Paraguay", "Peru", "Suriname", "Uruguay", "Venezuela"],
         "CA": ["United States"],
+        "CD": ["Angola", "Burundi", "Central African Republic", "Republic of the Congo", "Rwanda", "South Sudan", "Uganda", "Tanzania", "Zambia"],
         "CH": ["Austria", "France", "Germany", "Italy", "Liechtenstein"],
         "CL": ["Argentina", "Bolivia", "Peru"],
         "CN": ["Afghanistan", "Bhutan", "India", "Kazakhstan", "Kyrgyzstan", "Laos", "Mongolia", "Myanmar", "Nepal", "North Korea", "Pakistan", "Russia", "Tajikistan", "Vietnam"],
@@ -25,12 +30,16 @@ enum BorderData {
         "CZ": ["Austria", "Germany", "Poland", "Slovakia"],
         "DE": ["Austria", "Belgium", "Czechia", "Denmark", "France", "Luxembourg", "Netherlands", "Poland", "Switzerland"],
         "DK": ["Germany"],
+        "DZ": ["Libya", "Mali", "Morocco", "Niger", "Tunisia", "Western Sahara"],
+        "EC": ["Colombia", "Peru"],
         "EE": ["Latvia", "Russia"],
         "EG": ["Israel", "Libya", "Palestine", "Saudi Arabia", "Sudan"],
         "ES": ["Andorra", "France", "Gibraltar", "Morocco", "Portugal"],
+        "ET": ["Djibouti", "Eritrea", "Kenya", "Somalia", "South Sudan", "Sudan"],
         "FI": ["Norway", "Russia", "Sweden"],
         "FR": ["Andorra", "Belgium", "Germany", "Italy", "Luxembourg", "Monaco", "Spain", "Switzerland"],
         "GB": ["Ireland"],
+        "GH": ["Burkina Faso", "Ivory Coast", "Togo"],
         "GR": ["Albania", "Bulgaria", "North Macedonia", "Turkey"],
         "HR": ["Bosnia and Herzegovina", "Hungary", "Montenegro", "Serbia", "Slovenia"],
         "HU": ["Austria", "Croatia", "Serbia", "Romania", "Slovakia", "Slovenia", "Ukraine"],
@@ -38,16 +47,20 @@ enum BorderData {
         "IE": ["United Kingdom"],
         "IL": ["Egypt", "Jordan", "Lebanon", "Palestine", "Syria"],
         "IN": ["Bangladesh", "Bhutan", "China", "Myanmar", "Nepal", "Pakistan"],
+        "IR": ["Afghanistan", "Armenia", "Azerbaijan", "Iraq", "Pakistan", "Turkey", "Turkmenistan"],
         "IT": ["Austria", "France", "Slovenia", "Switzerland"],
         "JP": [],
         "KE": ["Ethiopia", "Somalia", "South Sudan", "Uganda", "Tanzania"],
         "KR": ["North Korea"],
+        "LK": [],
         "LT": ["Belarus", "Latvia", "Poland"],
         "LU": ["Belgium", "France", "Germany"],
         "LV": ["Belarus", "Estonia", "Lithuania", "Russia"],
         "MA": ["Algeria", "Mauritania", "Spain", "Western Sahara"],
+        "MN": ["China", "Russia"],
         "MT": [],
         "MX": ["Belize", "Guatemala", "United States"],
+        "MY": ["Brunei", "Indonesia", "Thailand"],
         "NG": ["Benin", "Cameroon", "Niger"],
         "NL": ["Belgium", "Germany"],
         "NO": ["Finland", "Sweden"],
@@ -61,12 +74,18 @@ enum BorderData {
         "RU": ["Azerbaijan", "Belarus", "China", "Estonia", "Finland", "Georgia", "Kazakhstan", "Latvia", "Mongolia", "Ukraine"],
         "SA": ["Egypt", "Iraq", "Jordan", "Kuwait", "Oman", "Qatar", "United Arab Emirates", "Yemen"],
         "SE": ["Finland", "Norway"],
+        "SG": [],
         "SI": ["Austria", "Croatia", "Hungary", "Italy"],
         "SK": ["Austria", "Czechia", "Hungary", "Poland", "Ukraine"],
+        "SN": ["Gambia", "Guinea", "Guinea-Bissau", "Mali", "Mauritania"],
         "TH": ["Cambodia", "Laos", "Malaysia", "Myanmar"],
         "TR": ["Armenia", "Azerbaijan", "Bulgaria", "Georgia", "Greece", "Iran", "Iraq", "Syria"],
+        "TZ": ["Burundi", "Democratic Republic of Congo", "Kenya", "Malawi", "Mozambique", "Rwanda", "Uganda", "Zambia"],
         "US": ["Canada", "Mexico"],
+        "UY": ["Argentina", "Brazil"],
+        "VE": ["Brazil", "Colombia", "Guyana"],
         "VN": ["Cambodia", "China", "Laos"],
         "ZA": ["Botswana", "Mozambique", "Namibia", "Zimbabwe", "Eswatini"],
+        "ZW": ["Botswana", "Mozambique", "Namibia", "South Africa", "Zambia"],
     ]
 }
