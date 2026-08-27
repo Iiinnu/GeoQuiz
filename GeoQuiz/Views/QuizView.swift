@@ -38,6 +38,8 @@ struct QuizView: View {
             }
         }
         .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Theme.background.ignoresSafeArea())
         .navigationTitle("Question \(min(session.currentIndex + 1, session.totalCount)) of \(session.totalCount)")
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: session.currentIndex) { _, _ in
@@ -172,7 +174,7 @@ private struct QuestionMediaView: View {
                 .fill(.black, style: FillStyle(eoFill: true))
                 .frame(maxWidth: 280, maxHeight: 280)
                 .padding(16)
-                .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+                .background(Theme.card, in: RoundedRectangle(cornerRadius: 12))
                 .overlay(cardBorder)
         }
     }
@@ -189,7 +191,7 @@ private struct ClueBanner: View {
             .font(.subheadline)
             .padding(12)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.yellow.opacity(0.15), in: RoundedRectangle(cornerRadius: 10))
+            .background(Theme.hint.opacity(0.15), in: RoundedRectangle(cornerRadius: 10))
     }
 }
 

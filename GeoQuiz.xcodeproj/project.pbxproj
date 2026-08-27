@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		07C466E66B8455CA06FE4460 /* QuizSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0517E1B28FB8EF6D08D33EBD /* QuizSession.swift */; };
 		14DF2A5CD409D2F72B29D498 /* QuizSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A231A436A7ECD2965AD1FB6 /* QuizSessionTests.swift */; };
+		1CD6ED3A57DB5A80BE8D989F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9AF084BF4406A4656EB75F /* Theme.swift */; };
+		1D6304B6726E76BF28409C62 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26CABDEA4501986DD91E5F3 /* GlobeView.swift */; };
 		2A85BF1B040033F9CC11341C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1DB9B77511A7A63FC74A168 /* Assets.xcassets */; };
 		2AFB0CE27B5990FF847C0BFD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324794592EE2619B9E392719 /* ContentView.swift */; };
 		3DE2DEAB23664EC66B18749B /* BorderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6369F66C23562E9EA589CC83 /* BorderData.swift */; };
@@ -59,6 +61,7 @@
 		261E317613DB3EB12A09E622 /* BorderDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderDataTests.swift; sourceTree = "<group>"; };
 		324794592EE2619B9E392719 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		39C8077AEF3D1CF6B552A881 /* CountryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryData.swift; sourceTree = "<group>"; };
+		3B9AF084BF4406A4656EB75F /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		4213FCF20BB147E9B52C5C73 /* ClueProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClueProviderTests.swift; sourceTree = "<group>"; };
 		5FF27C62BBF3CF9670255A2B /* QuestionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactory.swift; sourceTree = "<group>"; };
 		61655EA0848B994121E0A085 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
@@ -68,6 +71,7 @@
 		7A231A436A7ECD2965AD1FB6 /* QuizSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSessionTests.swift; sourceTree = "<group>"; };
 		965B009261BD86722E349CA8 /* Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		9FBAEC33338966386AF5C957 /* ContourData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContourData.swift; sourceTree = "<group>"; };
+		A26CABDEA4501986DD91E5F3 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
 		A3B839C8173E09DFCA4F9B67 /* GeoQuiz.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = GeoQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE96C24C277B85DD63995DA5 /* ContourShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContourShapeTests.swift; sourceTree = "<group>"; };
 		B37AED1D5C20B8B25CC3D32D /* ModePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModePickerView.swift; sourceTree = "<group>"; };
@@ -114,11 +118,13 @@
 			children = (
 				324794592EE2619B9E392719 /* ContentView.swift */,
 				12A60DC87166BCB50441F785 /* ContourShape.swift */,
+				A26CABDEA4501986DD91E5F3 /* GlobeView.swift */,
 				EA03540A3B54F15F53B16DF4 /* HomeView.swift */,
 				0D60278CCD30CBF519E0E4E3 /* HowToPlayView.swift */,
 				B37AED1D5C20B8B25CC3D32D /* ModePickerView.swift */,
 				0FA62C82C24A0F3A8690B747 /* QuizView.swift */,
 				689E277BD37701F743EA139E /* ResultsView.swift */,
+				3B9AF084BF4406A4656EB75F /* Theme.swift */,
 				141E94EDF3227E5E6B304190 /* ZoomableImageView.swift */,
 			);
 			path = Views;
@@ -289,6 +295,7 @@
 				83C29F4E14713870BFDCE220 /* FuzzyMatcher.swift in Sources */,
 				EBC60F0447305235022F0E15 /* GameMode.swift in Sources */,
 				F7D2605C4905224761F828D6 /* GeoQuizApp.swift in Sources */,
+				1D6304B6726E76BF28409C62 /* GlobeView.swift in Sources */,
 				8579071BBDFE8B74D4994AD7 /* HomeView.swift in Sources */,
 				5210CDA1786710DDB234E3F6 /* HowToPlayView.swift in Sources */,
 				951A5D70D95386DBEB3D7445 /* ModePickerView.swift in Sources */,
@@ -298,6 +305,7 @@
 				84A007B84046DE599F72D7A0 /* QuizView.swift in Sources */,
 				D8FB250BD163D392D2E8FBC0 /* Region.swift in Sources */,
 				A9F0BA26DB256D5C0B1D8473 /* ResultsView.swift in Sources */,
+				1CD6ED3A57DB5A80BE8D989F /* Theme.swift in Sources */,
 				66B53ACA5D4A47344D0DA423 /* ZoomableImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

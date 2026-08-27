@@ -37,6 +37,8 @@ struct ModePickerView: View {
             .padding(.horizontal)
             .padding(.bottom, 24)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Theme.background.ignoresSafeArea())
         .navigationTitle("Pick Your Modes")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -78,7 +80,7 @@ private struct ModeCard: View {
                     .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
             }
             .padding()
-            .background(.quaternary.opacity(isSelected ? 0.6 : 0.25), in: RoundedRectangle(cornerRadius: 14))
+            .background(isSelected ? Theme.card : Theme.card.opacity(0.5), in: RoundedRectangle(cornerRadius: 14))
         }
         .buttonStyle(.plain)
         .opacity(mode.isImplemented ? 1 : 0.5)

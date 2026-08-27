@@ -8,12 +8,15 @@ struct HomeView: View {
     @State private var showHowToPlay = false
 
     var body: some View {
-        VStack(spacing: 32) {
+        VStack(spacing: 28) {
             Spacer()
 
             // Placeholder logo/title — plain styled text until a real logo exists.
             Text("GeoQuiz")
-                .font(.system(size: 48, weight: .bold, design: .rounded))
+                .font(.system(size: 40, weight: .bold, design: .rounded))
+                .foregroundStyle(Theme.accent)
+
+            GlobeView()
 
             Spacer()
 
@@ -41,6 +44,8 @@ struct HomeView: View {
             .padding(.horizontal)
             .padding(.bottom, 40)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Theme.background.ignoresSafeArea())
         .sheet(isPresented: $showHowToPlay) {
             HowToPlayView()
         }

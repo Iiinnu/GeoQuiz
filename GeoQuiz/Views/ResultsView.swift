@@ -27,7 +27,7 @@ struct ResultsView: View {
                 Spacer()
                 Label("Perfect round!", systemImage: "star.fill")
                     .font(.headline)
-                    .foregroundStyle(.yellow)
+                    .foregroundStyle(Theme.hint)
                 Spacer()
             } else {
                 List {
@@ -56,6 +56,8 @@ struct ResultsView: View {
             .padding(.horizontal)
             .padding(.bottom, 24)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Theme.background.ignoresSafeArea())
         .navigationTitle("Results")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)

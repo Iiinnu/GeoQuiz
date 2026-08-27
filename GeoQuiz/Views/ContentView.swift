@@ -19,6 +19,7 @@ struct ContentView: View {
                 }
             }
         }
+        .tint(Theme.accent)
     }
 
     private func restart() {
