@@ -63,10 +63,13 @@ struct ResultsView: View {
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
+                            .listRowBackground(Theme.card)
                         }
                     }
                 }
                 .listStyle(.insetGrouped)
+                .scrollContentBackground(.hidden)
+                .background(Theme.background)
             }
 
             Button(action: onRestart) {
