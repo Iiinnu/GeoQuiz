@@ -1,56 +1,47 @@
 import SwiftUI
 
-/// Flat 2D "spinning globe" illustration for the home screen. Continents are a
-/// handful of overlapping blobs, not traced geography — this is a placeholder-grade
-/// illustration, not a realistic 3D globe.
+/// A thin-line wireframe globe — an outer circle, a static equator, and a few rotating
+/// "meridian" ellipses that sweep across the face to suggest a slowly spinning sphere.
+/// No fill, matching the linework style of `HomeBackgroundArt`.
 struct GlobeView: View {
     @State private var rotation: Double = 0
 
-    private let size: CGFloat = 160
+    private let size: CGFloat = 320
+    private let lineColor = Theme.accent
 
     var body: some View {
         ZStack {
-            Circle()
-                .fill(Theme.card)
+            equator
 
             ZStack {
                 meridian(widthFraction: 1.0)
-                meridian(widthFraction: 0.55)
-                continents
+                meridian(widthFraction: 0.62)
+                meridian(widthFraction: 0.62).scaleEffect(x: -1, y: 1)
             }
             .rotationEffect(.degrees(rotation))
             .clipShape(Circle())
 
             Circle()
-                .stroke(Theme.accent.opacity(0.5), lineWidth: 2)
+                .stroke(lineColor.opacity(0.75), lineWidth: 1.5)
         }
         .frame(width: size, height: size)
         .onAppear {
-            withAnimation(.linear(duration: 14).repeatForever(autoreverses: false)) {
+            withAnimation(.linear(duration: 18).repeatForever(autoreverses: false)) {
                 rotation = 360
             }
         }
         .accessibilityHidden(true)
     }
 
-    private var continents: some View {
-        ZStack {
-            blob(width: 70, height: 46).offset(x: -34, y: -40)
-            blob(width: 46, height: 58).offset(x: 30, y: -6)
-            blob(width: 58, height: 38).offset(x: -14, y: 42)
-            blob(width: 34, height: 30).offset(x: 48, y: 50)
-        }
-    }
-
-    private func blob(width: CGFloat, height: CGFloat) -> some View {
+    private var equator: some View {
         Ellipse()
-            .fill(Theme.accent.opacity(0.85))
-            .frame(width: width, height: height)
+            .stroke(lineColor.opacity(0.4), lineWidth: 1)
+            .frame(width: size, height: size * 0.06)
     }
 
     private func meridian(widthFraction: CGFloat) -> some View {
         Ellipse()
-            .stroke(Theme.accent.opacity(0.3), lineWidth: 1)
+            .stroke(lineColor.opacity(0.5), lineWidth: 1)
             .frame(width: size * widthFraction, height: size)
     }
 }

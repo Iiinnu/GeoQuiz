@@ -9,6 +9,9 @@ enum Theme {
     static let accent = Color(red: 0.294, green: 0.420, blue: 0.306)
     static let background = Color(red: 0.965, green: 0.961, blue: 0.937)
     static let card = Color(red: 0.910, green: 0.929, blue: 0.890)
+    /// A lighter, softer green between `accent` and `card` — used for decorative
+    /// background art so it isn't just one tone at different opacities.
+    static let accentSoft = Color(red: 0.522, green: 0.639, blue: 0.529)
     /// Muted amber used for the hint/clue banner — decorative "here's some help"
     /// signal, distinct from both the accent green and the correct/wrong feedback
     /// colors so it can't be confused with either.

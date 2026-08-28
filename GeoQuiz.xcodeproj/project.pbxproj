@@ -30,6 +30,7 @@
 		8B1DC252FC5FAE196485BA47 /* ContourShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE96C24C277B85DD63995DA5 /* ContourShapeTests.swift */; };
 		8CC356A9681B1B80B7B30720 /* ClueProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213FCF20BB147E9B52C5C73 /* ClueProviderTests.swift */; };
 		951A5D70D95386DBEB3D7445 /* ModePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37AED1D5C20B8B25CC3D32D /* ModePickerView.swift */; };
+		A6A4E0BEEE1CB37E8967385A /* HomeBackgroundArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301FD79145F1A44A58A22C1B /* HomeBackgroundArt.swift */; };
 		A9F0BA26DB256D5C0B1D8473 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689E277BD37701F743EA139E /* ResultsView.swift */; };
 		AC1FE12BBE9F7E6E7FF1D4DE /* CountryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C8077AEF3D1CF6B552A881 /* CountryData.swift */; };
 		AE59A44D19491ADA422DAD71 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76981060238AE5B5910E5E94 /* Country.swift */; };
@@ -65,6 +66,7 @@
 		24E794E062D04780F501E2C3 /* ClueProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClueProvider.swift; sourceTree = "<group>"; };
 		261E317613DB3EB12A09E622 /* BorderDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderDataTests.swift; sourceTree = "<group>"; };
 		2739B33FB0021D34E9BA3AE5 /* PersistenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceModels.swift; sourceTree = "<group>"; };
+		301FD79145F1A44A58A22C1B /* HomeBackgroundArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBackgroundArt.swift; sourceTree = "<group>"; };
 		324794592EE2619B9E392719 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		39C8077AEF3D1CF6B552A881 /* CountryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryData.swift; sourceTree = "<group>"; };
 		3B9AF084BF4406A4656EB75F /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				324794592EE2619B9E392719 /* ContentView.swift */,
 				12A60DC87166BCB50441F785 /* ContourShape.swift */,
 				A26CABDEA4501986DD91E5F3 /* GlobeView.swift */,
+				301FD79145F1A44A58A22C1B /* HomeBackgroundArt.swift */,
 				EA03540A3B54F15F53B16DF4 /* HomeView.swift */,
 				0D60278CCD30CBF519E0E4E3 /* HowToPlayView.swift */,
 				B37AED1D5C20B8B25CC3D32D /* ModePickerView.swift */,
@@ -309,6 +312,7 @@
 				D07CBD53ACFD026D2F472315 /* GameStatsStore.swift in Sources */,
 				F7D2605C4905224761F828D6 /* GeoQuizApp.swift in Sources */,
 				1D6304B6726E76BF28409C62 /* GlobeView.swift in Sources */,
+				A6A4E0BEEE1CB37E8967385A /* HomeBackgroundArt.swift in Sources */,
 				8579071BBDFE8B74D4994AD7 /* HomeView.swift in Sources */,
 				5210CDA1786710DDB234E3F6 /* HowToPlayView.swift in Sources */,
 				951A5D70D95386DBEB3D7445 /* ModePickerView.swift in Sources */,

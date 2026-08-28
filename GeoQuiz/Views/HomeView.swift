@@ -15,56 +15,61 @@ struct HomeView: View {
     private var strongestCategory: GameMode? { modeStats.strongestCategory() }
 
     var body: some View {
-        VStack(spacing: 28) {
-            Spacer()
+        ZStack {
+            Theme.background.ignoresSafeArea()
+            HomeBackgroundArt()
+                .ignoresSafeArea()
 
-            // Placeholder logo/title — plain styled text until a real logo exists.
-            Text("GeoQuiz")
-                .font(.system(size: 40, weight: .bold, design: .rounded))
-                .foregroundStyle(Theme.accent)
+            VStack(spacing: 28) {
+                Spacer()
 
-            GlobeView()
+                // Placeholder logo/title — plain styled text until a real logo exists.
+                Text("GeoQuiz")
+                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                    .foregroundStyle(Theme.accent)
 
-            if bestScore > 0 {
-                VStack(spacing: 2) {
-                    Text("Best score: \(bestScore) / \(QuizSession.maxPossibleRoundScore)")
-                        .font(.subheadline.weight(.semibold))
-                    if let strongestCategory {
-                        Text("Your strongest category is \(strongestCategory.displayName)")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                GlobeView()
+
+                if bestScore > 0 {
+                    VStack(spacing: 2) {
+                        Text("Best score: \(bestScore) / \(QuizSession.maxPossibleRoundScore)")
+                            .font(.subheadline.weight(.semibold))
+                        if let strongestCategory {
+                            Text("Your strongest category is \(strongestCategory.displayName)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
-            }
 
-            Spacer()
+                Spacer()
 
-            VStack(spacing: 12) {
-                NavigationLink {
-                    ModePickerView(onStart: onStartQuiz)
-                } label: {
-                    Text("Play")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
+                VStack(spacing: 12) {
+                    NavigationLink {
+                        ModePickerView(onStart: onStartQuiz)
+                    } label: {
+                        Text("Play")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    }
+                    .buttonStyle(.borderedProminent)
+
+                    Button {
+                        showHowToPlay = true
+                    } label: {
+                        Text("How to Play")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.borderedProminent)
-
-                Button {
-                    showHowToPlay = true
-                } label: {
-                    Text("How to Play")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                }
-                .buttonStyle(.bordered)
+                .padding(.horizontal)
+                .padding(.bottom, 40)
             }
-            .padding(.horizontal)
-            .padding(.bottom, 40)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Theme.background.ignoresSafeArea())
         .sheet(isPresented: $showHowToPlay) {
             HowToPlayView()
         }
