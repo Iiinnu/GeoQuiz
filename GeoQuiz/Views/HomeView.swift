@@ -7,6 +7,7 @@ struct HomeView: View {
     let onStartQuiz: (Set<GameMode>) -> Void
 
     @State private var showHowToPlay = false
+    @State private var showAcknowledgements = false
 
     @Query private var highScores: [HighScoreRecord]
     @Query private var modeStats: [ModeStatRecord]
@@ -64,6 +65,14 @@ struct HomeView: View {
                             .padding()
                     }
                     .buttonStyle(.bordered)
+
+                    Button("Acknowledgements") {
+                        showAcknowledgements = true
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .contentShape(Rectangle())
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 40)
@@ -72,6 +81,9 @@ struct HomeView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(isPresented: $showHowToPlay) {
             HowToPlayView()
+        }
+        .sheet(isPresented: $showAcknowledgements) {
+            AcknowledgementsView()
         }
     }
 }

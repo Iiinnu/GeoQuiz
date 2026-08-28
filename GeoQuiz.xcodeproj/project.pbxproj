@@ -18,6 +18,7 @@
 		3DE2DEAB23664EC66B18749B /* BorderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6369F66C23562E9EA589CC83 /* BorderData.swift */; };
 		44ED90D675A41B151819AF4A /* ContourDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5481E1FCCAD7B0B2D2C1E82 /* ContourDataTests.swift */; };
 		5210CDA1786710DDB234E3F6 /* HowToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D60278CCD30CBF519E0E4E3 /* HowToPlayView.swift */; };
+		53875E438FBDFF0BF3F5A199 /* AcknowledgementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD495C748B4AE9EB62F504 /* AcknowledgementsView.swift */; };
 		58F2BDAC1A5FF56611E3509A /* ContourData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBAEC33338966386AF5C957 /* ContourData.swift */; };
 		6134F95F651D34238488313C /* ContourShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A60DC87166BCB50441F785 /* ContourShape.swift */; };
 		61496D998D7220BC9D7A7251 /* CountryDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D6F16B7A7F7B0836DF8360 /* CountryDataTests.swift */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		01F6C55B75CDFC081E5773E6 /* FuzzyMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuzzyMatcher.swift; sourceTree = "<group>"; };
+		04AD495C748B4AE9EB62F504 /* AcknowledgementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgementsView.swift; sourceTree = "<group>"; };
 		0517E1B28FB8EF6D08D33EBD /* QuizSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSession.swift; sourceTree = "<group>"; };
 		0C651A8B0F56F6E8CDDB8AB7 /* GameStatsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStatsStoreTests.swift; sourceTree = "<group>"; };
 		0D60278CCD30CBF519E0E4E3 /* HowToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlayView.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		63CFA92A993F5835EEE67691 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				04AD495C748B4AE9EB62F504 /* AcknowledgementsView.swift */,
 				324794592EE2619B9E392719 /* ContentView.swift */,
 				12A60DC87166BCB50441F785 /* ContourShape.swift */,
 				A26CABDEA4501986DD91E5F3 /* GlobeView.swift */,
@@ -300,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53875E438FBDFF0BF3F5A199 /* AcknowledgementsView.swift in Sources */,
 				3DE2DEAB23664EC66B18749B /* BorderData.swift in Sources */,
 				BE43B9F8A6224D7B4842ECB8 /* ClueProvider.swift in Sources */,
 				2AFB0CE27B5990FF847C0BFD /* ContentView.swift in Sources */,
