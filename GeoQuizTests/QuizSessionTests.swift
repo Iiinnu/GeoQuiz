@@ -194,11 +194,16 @@ final class QuizSessionTests: XCTestCase {
         XCTAssertEqual(session.state, .missed)
     }
 
-    func testAerialCorrectAnswerMatchesTheCityNotTheCountry() {
+    func testAerialCorrectAnswerMatchesTheCityNotTheCountry() throws {
         let session = QuizSession(modes: [.aerial])
         guard let question = session.currentQuestion else { return XCTFail("no question") }
 
-        // The country name alone shouldn't count as correct for an Aerial question.
+        // Skip the rare case where the country name genuinely IS the correct answer --
+        // Singapore is a city-state whose Aerial answer equals its own country name, so
+        // this test's premise ("the country name alone shouldn't count as correct")
+        // doesn't apply to it. Without this, the test flakes on a ~1-in-76 random draw.
+        try XCTSkipIf(question.country.name == question.primaryAnswer)
+
         session.submit(question.country.name)
         XCTAssertNotEqual(session.state, .correct)
     }
