@@ -171,12 +171,15 @@ private struct QuestionMediaView: View {
                     }
                 }
             case .contours:
-                ContourShape(rings: ContourData.all[question.country.borderShapeRef ?? ""] ?? [])
-                    .fill(.black, style: FillStyle(eoFill: true))
-                    .frame(maxWidth: 340, maxHeight: 340)
-                    .padding(16)
-                    .background(Theme.card, in: RoundedRectangle(cornerRadius: 12))
-                    .overlay(cardBorder)
+                let countryID = question.country.borderShapeRef ?? ""
+                ContextualContourShape(
+                    targetRings: ContourData.all[countryID] ?? [],
+                    neighborRings: ContourData.neighborRings(ofCountryID: countryID)
+                )
+                .frame(maxWidth: 340, maxHeight: 340)
+                .padding(16)
+                .background(Theme.card, in: RoundedRectangle(cornerRadius: 12))
+                .overlay(cardBorder)
             }
         }
         .frame(maxWidth: .infinity)

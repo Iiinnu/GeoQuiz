@@ -39,6 +39,15 @@ and License (PDDL) — public domain, no attribution required. Coordinates were 
 to each country's significant landmasses, simplified, and normalized; see
 `GeoQuiz/Services/ContourData.swift` and `GeoQuiz/Views/ContourShape.swift`.
 
+Longitude is scaled by cos(the country's own mean latitude) at generation time — plotting
+raw (longitude, latitude) ignores how much a degree of longitude shrinks toward the poles,
+which made high-latitude countries render noticeably too wide (Canada/Russia by roughly
+2.2x). The same regeneration pass also excludes landmasses far outside a country's own
+latitude band (e.g. French Guiana, ~43° from mainland France) that passed the existing
+area-ratio filter and made the parent country's shape nearly unrecognizable, while still
+keeping legitimate outlying territory that's part of a country's known silhouette (Alaska,
+Canada's Arctic islands, Svalbard).
+
 ## Country land-border data
 
 `GeoQuiz/Resources/BorderData.swift` (used for Contours mode's Hint 1) is

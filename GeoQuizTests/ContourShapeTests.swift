@@ -40,4 +40,42 @@ final class ContourShapeTests: XCTestCase {
         XCTAssertEqual(bounds.width, 100, accuracy: 0.5)
         XCTAssertEqual(bounds.height, 100, accuracy: 0.5)
     }
+
+    // MARK: ContourFitTransform — shared letterbox math, and keeping target + neighbors aligned
+
+    func testContourFitTransformReturnsNilForEmptyPoints() {
+        XCTAssertNil(ContourFitTransform(points: [], in: CGRect(x: 0, y: 0, width: 100, height: 100)))
+    }
+
+    func testContourFitTransformKeepsTargetAndNeighborsAligned() {
+        // A neighbor square sitting immediately to the right of the target square in
+        // source space should still be touching it after a shared transform is applied
+        // to both — proving target and neighbors aren't independently re-centered.
+        let target = [[CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 0), CGPoint(x: 2, y: 2), CGPoint(x: 0, y: 2)]]
+        let neighbor = [[CGPoint(x: 2, y: 0), CGPoint(x: 4, y: 0), CGPoint(x: 4, y: 2), CGPoint(x: 2, y: 2)]]
+        let rect = CGRect(x: 0, y: 0, width: 100, height: 50)
+
+        guard let transform = ContourFitTransform(points: (target + neighbor).flatMap { $0 }, in: rect) else {
+            return XCTFail("expected a transform")
+        }
+        let targetBounds = transform.path(for: target).boundingRect
+        let neighborBounds = transform.path(for: neighbor).boundingRect
+        XCTAssertEqual(targetBounds.maxX, neighborBounds.minX, accuracy: 0.5)
+    }
+
+    func testContourFitTransformFitsTheCombinedBoundsNotJustTheTarget() {
+        // A neighbor far to the right should widen the shared bounding box, so the
+        // target ends up smaller within the rect than it would alone — this is what
+        // gives the player spatial context instead of a maximized, context-free shape.
+        let target = [[CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 0), CGPoint(x: 1, y: 1), CGPoint(x: 0, y: 1)]]
+        let farNeighbor = [[CGPoint(x: 9, y: 0), CGPoint(x: 10, y: 0), CGPoint(x: 10, y: 1), CGPoint(x: 9, y: 1)]]
+        let rect = CGRect(x: 0, y: 0, width: 100, height: 100)
+
+        let aloneTransform = ContourFitTransform(points: target.flatMap { $0 }, in: rect)!
+        let combinedTransform = ContourFitTransform(points: (target + farNeighbor).flatMap { $0 }, in: rect)!
+
+        let aloneWidth = aloneTransform.path(for: target).boundingRect.width
+        let combinedWidth = combinedTransform.path(for: target).boundingRect.width
+        XCTAssertLessThan(combinedWidth, aloneWidth)
+    }
 }
