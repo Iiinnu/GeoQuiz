@@ -17,6 +17,7 @@ targets:
     info:
       path: Generated-Info.plist
       properties:
+        CFBundleDisplayName: Geomingo
         UILaunchScreen: {}
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait

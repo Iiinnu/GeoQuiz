@@ -25,7 +25,7 @@ struct HomeView: View {
                 Spacer()
 
                 // Placeholder logo/title — plain styled text until a real logo exists.
-                Text("GeoQuiz")
+                Text("Geomingo")
                     .font(.system(size: 40, weight: .bold, design: .rounded))
                     .foregroundStyle(Theme.accent)
 
