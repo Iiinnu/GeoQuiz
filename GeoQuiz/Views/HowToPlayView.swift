@@ -18,11 +18,7 @@ struct HowToPlayView: View {
                     )
                     section(
                         title: "Hints",
-                        text: "Not sure? Every mode offers a pre-answer hint — tap \"I don't know, give me a hint\" to reveal one before you guess."
-                    )
-                    section(
-                        title: "Clues",
-                        text: "Answer wrong and you're not out yet — you'll get a clue and one more chance to answer correctly before the question is scored as missed."
+                        text: "Not sure? Every mode offers a hint — tap \"I don't know, give me a hint\" to reveal one before you guess. Answer wrong and you're not out yet: you'll automatically get a second, richer hint (everything the first one told you, plus more) and one more chance to answer correctly before the question is scored as missed."
                     )
                     section(
                         title: "Satellite Images",
@@ -30,7 +26,7 @@ struct HowToPlayView: View {
                     )
                     section(
                         title: "Scoring",
-                        text: "Each question is worth up to 3 points: 3 for a correct first try with no help, 2 if you used the hint, 1 if you needed a clue after answering wrong, and 0 if missed even after the clue. A full 20-question round is worth up to 60 points."
+                        text: "Each question is worth up to 3 points: 3 for a correct first try with no help, 2 if you used the first hint, 1 if you needed the second hint after answering wrong, and 0 if missed even after that. A full 20-question round is worth up to 60 points."
                     )
                 }
                 .padding()

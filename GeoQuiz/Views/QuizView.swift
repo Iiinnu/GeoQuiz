@@ -21,8 +21,8 @@ struct QuizView: View {
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
 
-                if case .awaitingRetry(let clue) = session.state {
-                    ClueBanner(text: clue)
+                if case .awaitingRetry(let hint) = session.state {
+                    HintBanner(text: hint)
                 }
 
                 if case .correct = session.state {
@@ -187,7 +187,7 @@ private struct QuestionMediaView: View {
     }
 }
 
-private struct ClueBanner: View {
+private struct HintBanner: View {
     let text: String
     var body: some View {
         Label(text, systemImage: "lightbulb")

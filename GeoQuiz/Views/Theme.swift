@@ -12,7 +12,7 @@ enum Theme {
     /// A lighter, softer green between `accent` and `card` — used for decorative
     /// background art so it isn't just one tone at different opacities.
     static let accentSoft = Color(red: 0.522, green: 0.639, blue: 0.529)
-    /// Muted amber used for the hint/clue banner — decorative "here's some help"
+    /// Muted amber used for the hint banner — decorative "here's some help"
     /// signal, distinct from both the accent green and the correct/wrong feedback
     /// colors so it can't be confused with either.
     static let hint = Color(red: 0.72, green: 0.58, blue: 0.20)

@@ -28,9 +28,9 @@ final class ModeStatRecord {
 
     var mode: GameMode { GameMode(rawValue: modeRawValue) ?? .capitals }
 
-    /// Average points per question (0...3) — a mode played entirely without hints or
-    /// clues sits at 3.0. This already folds in how much help was needed, which is why
-    /// it's used instead of a plain "percent correct".
+    /// Average points per question (0...3) — a mode played entirely without hints sits at
+    /// 3.0. This already folds in how much help was needed, which is why it's used
+    /// instead of a plain "percent correct".
     var averagePointsPerQuestion: Double {
         questionsAnswered == 0 ? 0 : Double(totalPointsEarned) / Double(questionsAnswered)
     }

@@ -1,13 +1,13 @@
 import Foundation
 
 /// Where a question currently sits in the shared answer flow (used by every mode):
-/// answering -> (hint or wrong) -> clue shown -> correct or missed. If the hint's clue
-/// and the wrong-guess clue actually differ (they do for every mode — see ClueProvider),
-/// a wrong guess after the hint reveals that stronger clue instead of ending the
-/// question, so using the hint doesn't waste your only retry.
+/// answering -> Hint 1 and/or a wrong guess -> Hint 2 shown -> correct or missed. Hint 2
+/// always contains Hint 1's content plus more (see `HintProvider`), so a wrong guess after
+/// Hint 1 reveals genuinely new information rather than ending the question outright —
+/// using Hint 1 never wastes your only retry.
 enum QuestionState: Equatable {
     case answering
-    case awaitingRetry(clue: String)
+    case awaitingRetry(hint: String)
     case correct
     case missed
 }
@@ -31,8 +31,8 @@ final class QuizSession: ObservableObject {
     @Published private(set) var state: QuestionState = .answering
     @Published private(set) var results: [QuestionResult] = []
 
-    private var hasShownHintClue = false
-    private var hasShownStrongClue = false
+    private var hasShownHint1 = false
+    private var hasShownHint2 = false
 
     init(modes: Set<GameMode>, excludedCountryIDs: [GameMode: Set<String>] = [:]) {
         self.questions = QuestionFactory.makeSession(
@@ -88,40 +88,31 @@ final class QuizSession: ObservableObject {
             if isMatch {
                 recordResult(wasCorrect: true)
             } else {
-                advanceToNextClueOrMiss(for: question)
+                advanceToHint2OrMiss(for: question)
             }
         case .correct, .missed:
             break
         }
     }
 
-    /// Shows the hint clue on demand, without requiring a wrong guess first — so a player
-    /// who just doesn't know the answer isn't forced to type a throwaway guess to unlock
-    /// it.
+    /// Shows Hint 1 on demand, without requiring a wrong guess first — so a player who
+    /// just doesn't know the answer isn't forced to type a throwaway guess to unlock it.
     func requestHint() {
         guard let question = currentQuestion, state == .answering else { return }
-        hasShownHintClue = true
-        state = .awaitingRetry(clue: ClueProvider.hintClue(for: question))
+        hasShownHint1 = true
+        state = .awaitingRetry(hint: HintProvider.hint1(for: question))
     }
 
-    /// After a wrong guess: if the hint was already used and the wrong-guess clue is
-    /// genuinely different from what the hint already showed, show that stronger clue
-    /// for one more try instead of ending the question, so the hint doesn't cost you your
-    /// only retry with nothing gained. Otherwise resolves as missed, same as always. The
-    /// `strongClue == hintClue` check is what makes this a no-op if some future mode ever
-    /// reuses the same text for both.
-    private func advanceToNextClueOrMiss(for question: Question) {
-        guard !hasShownStrongClue else {
+    /// After a wrong guess: shows Hint 2 for one more try instead of ending the question
+    /// outright, unless Hint 2 was already showing (i.e. this is the second wrong guess),
+    /// in which case the question is missed.
+    private func advanceToHint2OrMiss(for question: Question) {
+        guard !hasShownHint2 else {
             recordResult(wasCorrect: false)
             return
         }
-        let strongClue = ClueProvider.wrongGuessClue(for: question)
-        if hasShownHintClue && strongClue == ClueProvider.hintClue(for: question) {
-            recordResult(wasCorrect: false)
-            return
-        }
-        hasShownStrongClue = true
-        state = .awaitingRetry(clue: strongClue)
+        hasShownHint2 = true
+        state = .awaitingRetry(hint: HintProvider.hint2(for: question))
     }
 
     /// Every other country's real answers for the same field, so the matcher can tell a
@@ -140,18 +131,18 @@ final class QuizSession: ObservableObject {
             }
     }
 
-    /// Points reflect how much help was needed: 3 for a first-try correct answer, 2 if the
-    /// pre-answer hint was used but no guess was ever wrong, 1 if a wrong guess required the
-    /// stronger post-wrong-answer clue (even if the hint was also used earlier), 0 if missed.
+    /// Points reflect how much help was needed: 3 for a first-try correct answer, 2 if
+    /// Hint 1 was used but no guess was ever wrong, 1 if a wrong guess required Hint 2
+    /// (even if Hint 1 was also used earlier), 0 if missed.
     private func recordResult(wasCorrect: Bool) {
         guard let question = currentQuestion else { return }
         state = wasCorrect ? .correct : .missed
         let points: Int
         if !wasCorrect {
             points = 0
-        } else if hasShownStrongClue {
+        } else if hasShownHint2 {
             points = 1
-        } else if hasShownHintClue {
+        } else if hasShownHint1 {
             points = 2
         } else {
             points = 3
@@ -163,7 +154,7 @@ final class QuizSession: ObservableObject {
     func advance() {
         currentIndex += 1
         state = .answering
-        hasShownHintClue = false
-        hasShownStrongClue = false
+        hasShownHint1 = false
+        hasShownHint2 = false
     }
 }

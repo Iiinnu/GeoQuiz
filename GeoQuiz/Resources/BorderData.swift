@@ -2,13 +2,14 @@ import Foundation
 
 /// Real land-border neighbors for each of our 76 countries, derived from
 /// datasets/geo-countries boundary geometry (see the Phase 3 pipeline, extended for the
-/// South America/Asia/Africa expansion). Used by ClueProvider for the Contours-mode
-/// wrong-guess clue. Deliberately excludes non-sovereign entries (Hong Kong/Macao are
-/// part of China, not neighbors of it) and dataset quirks that would call two countries
-/// neighbors despite being separated by water (e.g. Taiwan/China; Singapore/Malaysia,
-/// split only by the Johor Strait) — see build_borders.py for the full reasoning.
-/// Countries with no land border (island nations) simply have an empty list;
-/// ClueProvider falls back to the starts-with clue for those.
+/// South America/Asia/Africa expansion). Used by HintProvider for Contours mode's Hint 1
+/// (region + how many countries it borders). Deliberately excludes non-sovereign entries
+/// (Hong Kong/Macao are part of China, not neighbors of it) and dataset quirks that would
+/// call two countries neighbors despite being separated by water (e.g. Taiwan/China;
+/// Singapore/Malaysia, split only by the Johor Strait) — see build_borders.py for the
+/// full reasoning. Countries with no land border (island nations) simply have an empty
+/// list; HintProvider phrases that as "doesn't share a land border with any other
+/// country" rather than "borders 0 countries".
 enum BorderData {
     static let neighbors: [String: [String]] = [
         "AE": ["Oman", "Saudi Arabia"],

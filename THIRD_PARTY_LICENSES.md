@@ -41,7 +41,7 @@ to each country's significant landmasses, simplified, and normalized; see
 
 ## Country land-border data
 
-`GeoQuiz/Resources/BorderData.swift` (used for the Contours-mode wrong-guess clue) is
+`GeoQuiz/Resources/BorderData.swift` (used for Contours mode's Hint 1) is
 also derived from the same `countries.geojson` — border adjacency was computed
 geometrically from the boundary polygons rather than sourced from a separate dataset.
 Same PDDL terms as above apply.
