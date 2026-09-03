@@ -25,7 +25,7 @@ enum ContourData {
 
     /// Real neighboring countries' contour rings for `countryID`, resolved from
     /// `BorderData`'s neighbor names to `CountryData` entries we actually have contour
-    /// data for. A real-world neighbor outside our 76-country set is silently skipped —
+    /// data for. A real-world neighbor outside our 79-country set is silently skipped —
     /// there's no shape to show for it. Flattened to one list since callers only need
     /// "everything to draw as a thin outline", not which ring belongs to which neighbor.
     static func neighborRings(ofCountryID countryID: String) -> [[CGPoint]] {

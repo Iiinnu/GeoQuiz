@@ -1,6 +1,6 @@
 import Foundation
 
-/// Real land-border neighbors for each of our 76 countries, derived from
+/// Real land-border neighbors for each of our 79 countries, derived from
 /// datasets/geo-countries boundary geometry (see the Phase 3 pipeline, extended for the
 /// South America/Asia/Africa expansion). Used by HintProvider for Contours mode's Hint 1
 /// (region + how many countries it borders). Deliberately excludes non-sovereign entries
@@ -27,6 +27,7 @@ enum BorderData {
         "CL": ["Argentina", "Bolivia", "Peru"],
         "CN": ["Afghanistan", "Bhutan", "India", "Kazakhstan", "Kyrgyzstan", "Laos", "Mongolia", "Myanmar", "Nepal", "North Korea", "Pakistan", "Russia", "Tajikistan", "Vietnam"],
         "CO": ["Brazil", "Ecuador", "Panama", "Peru", "Venezuela"],
+        "CU": [],
         "CY": [],
         "CZ": ["Austria", "Germany", "Poland", "Slovakia"],
         "DE": ["Austria", "Belgium", "Czechia", "Denmark", "France", "Luxembourg", "Netherlands", "Poland", "Switzerland"],
@@ -82,6 +83,8 @@ enum BorderData {
         "TH": ["Cambodia", "Laos", "Malaysia", "Myanmar"],
         "TR": ["Armenia", "Azerbaijan", "Bulgaria", "Georgia", "Greece", "Iran", "Iraq", "Syria"],
         "TZ": ["Burundi", "Democratic Republic of Congo", "Kenya", "Malawi", "Mozambique", "Rwanda", "Uganda", "Zambia"],
+        "UA": ["Belarus", "Hungary", "Moldova", "Poland", "Romania", "Russia", "Slovakia"],
+        "UG": ["Democratic Republic of Congo", "Kenya", "Rwanda", "South Sudan", "Tanzania"],
         "US": ["Canada", "Mexico"],
         "UY": ["Argentina", "Brazil"],
         "VE": ["Brazil", "Colombia", "Guyana"],

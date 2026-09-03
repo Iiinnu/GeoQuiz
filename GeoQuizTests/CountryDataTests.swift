@@ -136,4 +136,26 @@ final class CountryDataTests: XCTestCase {
         XCTAssertEqual(singapore.capital, "Singapore")
         XCTAssertEqual(singapore.name, "Singapore")
     }
+
+    // MARK: - Cuba/Uganda/Ukraine expansion (3 new countries)
+
+    func testAllThreeExpansionCountriesArePresent() {
+        let expectedIDs: Set<String> = ["CU", "UG", "UA"]
+        let actualIDs = Set(CountryData.all.map(\.id))
+        XCTAssertTrue(expectedIDs.isSubset(of: actualIDs), "Missing expansion countries: \(expectedIDs.subtracting(actualIDs))")
+    }
+
+    func testCubaUgandaUkraineHaveTheirRegionAssignedCorrectly() {
+        let expectedRegions: [String: Region] = ["CU": .northAmerica, "UG": .africa, "UA": .europe]
+        for (id, region) in expectedRegions {
+            let country = CountryData.all.first { $0.id == id }
+            XCTAssertEqual(country?.region, region, "\(id) should be in \(region)")
+        }
+    }
+
+    func testUkraineAcceptsKievAsACapitalAlias() {
+        let ukraine = CountryData.all.first { $0.id == "UA" }!
+        XCTAssertEqual(ukraine.capital, "Kyiv")
+        XCTAssertTrue(ukraine.acceptableCapitalAnswers.contains("Kiev"))
+    }
 }

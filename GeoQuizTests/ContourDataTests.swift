@@ -42,7 +42,7 @@ final class ContourDataTests: XCTestCase {
 
     func testNeighborRingsSkipsRealNeighborsOutsideOurDataset() {
         // China has 14 real neighbors, but only a handful (India, Mongolia, Pakistan,
-        // Russia, Vietnam) are in our 76-country set -- this shouldn't crash or include
+        // Russia, Vietnam) are in our 79-country set -- this shouldn't crash or include
         // placeholder data for the rest (Bhutan, Kazakhstan, etc.).
         let rings = ContourData.neighborRings(ofCountryID: "CN")
         XCTAssertFalse(rings.isEmpty)

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Curated dataset: G20 + EU members + a spread of other major countries per continent
-/// (76 total as of the South America/Asia/Africa expansion below). All game modes read
+/// (79 total as of the Cuba/Uganda/Ukraine expansion below). All game modes read
 /// from this single list. Expanding to the full ~195 UN member set later is additive —
 /// just append `Country` entries here.
 enum CountryData {
@@ -145,5 +145,16 @@ enum CountryData {
         Country(id: "SN", name: "Senegal", capital: "Dakar", region: .africa, populationMillions: 17),
         Country(id: "CD", name: "Democratic Republic of Congo", capital: "Kinshasa", region: .africa, populationMillions: 99,
                 nameAliases: ["DR Congo", "DRC", "Congo-Kinshasa", "Democratic Republic of the Congo"]),
+
+        // --- Added: 3-country expansion (Cuba, Uganda, Ukraine) ---
+
+        Country(id: "CU", name: "Cuba", capital: "Havana", region: .northAmerica, populationMillions: 11,
+                capitalAliases: ["La Habana"]),
+        Country(id: "UG", name: "Uganda", capital: "Kampala", region: .africa, populationMillions: 53),
+        // Kyiv is the current standard transliteration; "Kiev" (the older, Russian-derived
+        // spelling) is still by far the most commonly typed/searched form, so it's kept as
+        // an accepted alias rather than the primary answer.
+        Country(id: "UA", name: "Ukraine", capital: "Kyiv", region: .europe, populationMillions: 40,
+                capitalAliases: ["Kiev"]),
     ]
 }

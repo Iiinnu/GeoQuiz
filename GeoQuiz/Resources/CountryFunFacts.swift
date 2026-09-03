@@ -1,7 +1,7 @@
 import Foundation
 
 /// Hand-picked geography/culture facts, one per country, used to enrich Hint 2 across all
-/// 4 modes (see `HintProvider`) — the same fact is reused regardless of mode, since it's a
+/// 5 modes (see `HintProvider`) — the same fact is reused regardless of mode, since it's a
 /// property of the country itself, not something mode-specific. Deliberately avoids naming
 /// the country/capital/city directly, and avoids anything visible in Flags' own image (a
 /// flag's colors or symbols would just restate what's already on screen) or a landmark
@@ -12,6 +12,7 @@ enum CountryFunFacts {
         "US": "It has the world's largest economy by GDP.",
         "CA": "It has the world's longest international land border with another country.",
         "MX": "It's home to more Spanish speakers than any other country in the world.",
+        "CU": "Classic American cars from the 1950s are still a common sight on its streets, kept running for decades under a long trade embargo.",
 
         // South America
         "AR": "It's home to what's often called the world's widest avenue, in its capital.",
@@ -56,6 +57,7 @@ enum CountryFunFacts {
         "SE": "It has more than 100,000 islands along its coastline.",
         "NO": "It's home to some of the longest and deepest fjords in the world.",
         "CH": "It borders five other countries but has no coastline at all.",
+        "UA": "It's the largest country whose territory lies entirely within Europe.",
 
         // Asia
         "CN": "It shares land borders with more countries than any other nation on Earth — 14 in total.",
@@ -91,6 +93,7 @@ enum CountryFunFacts {
         "ZW": "It's home to one of the largest waterfalls in the world.",
         "SN": "It's home to the westernmost point of mainland Africa.",
         "CD": "It's home to the world's second-largest rainforest.",
+        "UG": "It's home to the source of the world's longest river.",
 
         // Oceania
         "AU": "It's the only country that's also an entire continent.",

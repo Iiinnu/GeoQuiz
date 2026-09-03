@@ -71,7 +71,7 @@ struct ContourShape: Shape {
 /// bounding box across target + neighbors is all that's needed to keep everything
 /// geographically aligned — no per-country normalization. Falls back to showing just the
 /// target when it has no neighbors we have contour data for (island nations, or real
-/// neighbors outside our 76-country set).
+/// neighbors outside our 79-country set).
 struct ContextualContourShape: View {
     let targetRings: [[CGPoint]]
     let neighborRings: [[CGPoint]]
