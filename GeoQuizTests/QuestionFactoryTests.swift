@@ -73,4 +73,80 @@ final class QuestionFactoryTests: XCTestCase {
         }
         XCTAssertTrue(seenExpansionCountry, "expansion countries never appeared across 25 rounds — check they're reachable from the shared pool")
     }
+
+    // MARK: - Landmarks
+
+    func testLandmarksQuestionsCarryALandmarkMatchingTheCountry() {
+        let questions = QuestionFactory.makeSession(modes: [.landmarks], questionCount: 20)
+        XCTAssertEqual(questions.count, 20)
+        for question in questions {
+            XCTAssertEqual(question.mode, .landmarks)
+            guard let landmark = question.landmark else {
+                return XCTFail("Landmarks question missing its landmark")
+            }
+            XCTAssertEqual(landmark.countryID, question.country.id)
+            // Target follows the drawn landmark's own answerType, not a fixed mode-wide rule.
+            XCTAssertEqual(question.target, landmark.answerType == .country ? .countryName : .landmarkPlace)
+        }
+    }
+
+    func testNonLandmarksQuestionsCarryNoLandmark() {
+        let questions = QuestionFactory.makeSession(modes: [.capitals], questionCount: 5)
+        XCTAssertTrue(questions.allSatisfy { $0.landmark == nil })
+    }
+
+    // MARK: - Landmarks: answerType drives the target (historic/pop-culture batch)
+
+    func testLandmarksQuestionUsesLandmarkPlaceTargetForNonCountryAnswerTypes() {
+        // Draw many rounds and confirm at least one non-country-answer landmark (e.g. a
+        // city like London/Dealey Plaza) turns up with the right target and answer text.
+        var sawNonCountryTarget = false
+        for _ in 0..<40 {
+            let questions = QuestionFactory.makeSession(modes: [.landmarks], questionCount: 20)
+            if let question = questions.first(where: { $0.landmark?.answerType != .country }) {
+                sawNonCountryTarget = true
+                XCTAssertEqual(question.target, .landmarkPlace)
+                XCTAssertEqual(question.primaryAnswer, question.landmark?.answerText)
+                break
+            }
+        }
+        XCTAssertTrue(sawNonCountryTarget, "no non-country-answer Landmarks question turned up across 40 rounds")
+    }
+
+    // MARK: - promptText follows the drawn landmark's answerType
+
+    private let sweden = Country(id: "SE", name: "Sweden", capital: "Stockholm", region: .europe, populationMillions: 10)
+
+    func testPromptTextForCountryAnswerType() {
+        let landmark = Landmark(id: "t", countryID: "SE", name: "Test", eraFact: "x", imageAssetRef: "x", attribution: "y")
+        let question = Question(mode: .landmarks, country: sweden, target: .countryName, landmark: landmark)
+        XCTAssertEqual(question.promptText, "Which country is this landmark in?")
+    }
+
+    func testPromptTextForCityAnswerType() {
+        let landmark = Landmark(
+            id: "t", countryID: "SE", name: "Test", eraFact: "x", imageAssetRef: "x", attribution: "y",
+            answerType: .city, answerText: "London"
+        )
+        let question = Question(mode: .landmarks, country: sweden, target: .landmarkPlace, landmark: landmark)
+        XCTAssertEqual(question.promptText, "Which city is this landmark in?")
+    }
+
+    func testPromptTextForStateAnswerType() {
+        let landmark = Landmark(
+            id: "t", countryID: "SE", name: "Test", eraFact: "x", imageAssetRef: "x", attribution: "y",
+            answerType: .state, answerText: "Texas"
+        )
+        let question = Question(mode: .landmarks, country: sweden, target: .landmarkPlace, landmark: landmark)
+        XCTAssertEqual(question.promptText, "Which state is this landmark in?")
+    }
+
+    func testPromptTextForPlacenameAnswerType() {
+        let landmark = Landmark(
+            id: "t", countryID: "SE", name: "Test", eraFact: "x", imageAssetRef: "x", attribution: "y",
+            answerType: .placename, answerText: "Pearl Harbor"
+        )
+        let question = Question(mode: .landmarks, country: sweden, target: .landmarkPlace, landmark: landmark)
+        XCTAssertEqual(question.promptText, "What is this place called?")
+    }
 }

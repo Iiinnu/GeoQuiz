@@ -1,0 +1,23 @@
+{
+  "images": [
+    {
+      "filename": "TZ_stonetown@1x.jpg",
+      "idiom": "universal",
+      "scale": "1x"
+    },
+    {
+      "filename": "TZ_stonetown@2x.jpg",
+      "idiom": "universal",
+      "scale": "2x"
+    },
+    {
+      "filename": "TZ_stonetown@3x.jpg",
+      "idiom": "universal",
+      "scale": "3x"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

@@ -112,8 +112,9 @@ struct QuizView: View {
 /// The visual for image-based modes. Flags renders a bundled 4:3 image; Aerial renders a
 /// bundled square satellite crop (a fixed ~50km box around each capital, so every image
 /// is genuinely square — a 4:3 frame would just letterbox it). Contours renders a vector
-/// `ContourShape` looked up from `ContourData`. Capitals has no media, so this renders
-/// nothing for it.
+/// `ContourShape` looked up from `ContourData`. Landmarks renders a bundled 4:3 Wikimedia
+/// Commons photo (see `question.landmark`), same tap-to-zoom treatment as Aerial. Capitals
+/// has no media, so this renders nothing for it.
 private struct QuestionMediaView: View {
     let question: Question
 
@@ -180,6 +181,43 @@ private struct QuestionMediaView: View {
                 .padding(16)
                 .background(Theme.card, in: RoundedRectangle(cornerRadius: 12))
                 .overlay(cardBorder)
+            case .landmarks:
+                if let landmark = question.landmark {
+                    VStack(spacing: 4) {
+                        Button {
+                            isShowingFullscreenImage = true
+                        } label: {
+                            ZStack(alignment: .bottomTrailing) {
+                                Image(landmark.imageAssetRef)
+                                    .resizable()
+                                    .aspectRatio(4.0 / 3.0, contentMode: .fit)
+                                    .frame(maxWidth: 380, maxHeight: 300)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    .overlay(cardBorder)
+                                    .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+
+                                Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                    .font(.caption)
+                                    .padding(6)
+                                    .background(.black.opacity(0.5), in: Circle())
+                                    .foregroundStyle(.white)
+                                    .padding(8)
+                            }
+                        }
+                        .buttonStyle(.plain)
+
+                        // Every Landmarks photo comes from Wikimedia Commons under a
+                        // license that requires attribution wherever it's displayed —
+                        // same obligation, same treatment as the Copernicus notice under
+                        // Aerial-mode images.
+                        Text(landmark.attribution)
+                            .font(.caption2)
+                            .foregroundStyle(.tertiary)
+                    }
+                    .fullScreenCover(isPresented: $isShowingFullscreenImage) {
+                        ZoomableImageView(assetName: landmark.imageAssetRef)
+                    }
+                }
             }
         }
         .frame(maxWidth: .infinity)

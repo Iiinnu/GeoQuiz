@@ -25,19 +25,31 @@ enum QuestionFactory {
         }
 
         let questions = countPerMode.flatMap { mode, count -> [Question] in
+            // Landmarks' pool is data-driven rather than the full shared list: a country
+            // newly added to CountryData isn't necessarily covered by Landmarks content yet
+            // (see Cuba/Uganda/Ukraine, added ahead of their Landmarks entries), and drawing
+            // one here would produce a question with no image. Self-resolves once that
+            // country gets landmark data -- no separate list to keep in sync.
+            let pool = mode == .landmarks
+                ? countries.filter { !LandmarkData.landmarks(forCountryID: $0.id).isEmpty }
+                : countries
             let selected = selectCountries(
                 count: count,
-                from: countries,
+                from: pool,
                 excluding: excludedCountryIDs[mode] ?? []
             )
             return selected.map { country in
+                let landmark = mode == .landmarks
+                    ? LandmarkData.landmarks(forCountryID: country.id).randomElement()
+                    : nil
                 let target: AnswerTarget
                 switch mode {
                 case .capitals: target = Bool.random() ? .countryName : .capitalName
                 case .aerial: target = .aerialCityName
                 case .flags, .contours: target = .countryName
+                case .landmarks: target = (landmark?.answerType ?? .country) == .country ? .countryName : .landmarkPlace
                 }
-                return Question(mode: mode, country: country, target: target)
+                return Question(mode: mode, country: country, target: target, landmark: landmark)
             }
         }
         return questions.shuffled()

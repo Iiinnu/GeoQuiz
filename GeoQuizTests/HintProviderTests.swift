@@ -53,7 +53,7 @@ final class HintProviderTests: XCTestCase {
     }
 
     func testHint1NeverRevealsTheAnswer() {
-        for mode in [GameMode.capitals, .flags, .contours, .aerial] {
+        for mode in [GameMode.capitals, .flags, .contours, .aerial, .landmarks] {
             let question = Question(mode: mode, country: sweden, target: mode == .aerial ? .aerialCityName : .countryName)
             let hint = HintProvider.hint1(for: question)
             XCTAssertFalse(hint.contains("Stockholm"))
@@ -61,10 +61,25 @@ final class HintProviderTests: XCTestCase {
         }
     }
 
+    func testLandmarksHint1GivesContinentAndEraFact() {
+        let landmark = Landmark(
+            id: "test", countryID: "SE", name: "Test Landmark",
+            eraFact: "It was built in 1900.",
+            imageAssetRef: "x", attribution: "y"
+        )
+        let question = Question(mode: .landmarks, country: sweden, target: .countryName, landmark: landmark)
+        XCTAssertEqual(HintProvider.hint1(for: question), "Europe. It was built in 1900.")
+    }
+
+    func testLandmarksHint1FallsBackGracefullyWhenNoLandmarkAttached() {
+        let question = Question(mode: .landmarks, country: sweden, target: .countryName)
+        XCTAssertEqual(HintProvider.hint1(for: question), "Europe.")
+    }
+
     // MARK: Hint 2 — always Hint 1's content, plus a fun fact, plus a starting letter
 
     func testHint2ContainsHint1InFull() {
-        for mode in [GameMode.capitals, .flags, .contours, .aerial] {
+        for mode in [GameMode.capitals, .flags, .contours, .aerial, .landmarks] {
             let question = Question(mode: mode, country: sweden, target: mode == .aerial ? .aerialCityName : .countryName)
             XCTAssertTrue(
                 HintProvider.hint2(for: question).hasPrefix(HintProvider.hint1(for: question)),
@@ -94,17 +109,59 @@ final class HintProviderTests: XCTestCase {
         XCTAssertTrue(HintProvider.hint2(for: aerialQuestion).contains("The city starts with 'C'."))
     }
 
+    // MARK: Landmarks: landmarkPlace target's starting-letter subject follows answerType
+
+    func testStartsWithHintUsesCityForCityAnswerType() {
+        let landmark = Landmark(
+            id: "test", countryID: "SE", name: "Test", eraFact: "x",
+            imageAssetRef: "x", attribution: "y",
+            answerType: .city, answerText: "London"
+        )
+        let question = Question(mode: .landmarks, country: sweden, target: .landmarkPlace, landmark: landmark)
+        XCTAssertTrue(HintProvider.hint2(for: question).contains("The city starts with 'L'."))
+    }
+
+    func testStartsWithHintUsesStateForStateAnswerType() {
+        let landmark = Landmark(
+            id: "test", countryID: "SE", name: "Test", eraFact: "x",
+            imageAssetRef: "x", attribution: "y",
+            answerType: .state, answerText: "Texas"
+        )
+        let question = Question(mode: .landmarks, country: sweden, target: .landmarkPlace, landmark: landmark)
+        XCTAssertTrue(HintProvider.hint2(for: question).contains("The state starts with 'T'."))
+    }
+
+    func testStartsWithHintUsesPlaceForPlacenameAnswerType() {
+        let landmark = Landmark(
+            id: "test", countryID: "SE", name: "Test", eraFact: "x",
+            imageAssetRef: "x", attribution: "y",
+            answerType: .placename, answerText: "Pearl Harbor"
+        )
+        let question = Question(mode: .landmarks, country: sweden, target: .landmarkPlace, landmark: landmark)
+        XCTAssertTrue(HintProvider.hint2(for: question).contains("The place starts with 'P'."))
+    }
+
+    func testLandmarkPlaceHint2NeverRevealsTheFullAnswer() {
+        let landmark = Landmark(
+            id: "test", countryID: "SE", name: "Test", eraFact: "x",
+            imageAssetRef: "x", attribution: "y",
+            answerType: .city, answerText: "London"
+        )
+        let question = Question(mode: .landmarks, country: sweden, target: .landmarkPlace, landmark: landmark)
+        XCTAssertFalse(HintProvider.hint2(for: question).contains("London"))
+    }
+
     func testHint1AndHint2AreNeverIdentical() {
         // True by construction (Hint 2 = Hint 1 + more), but worth locking in as a test —
         // this used to require a special-case check in QuizSession before this redesign.
-        for mode in [GameMode.capitals, .flags, .contours, .aerial] {
+        for mode in [GameMode.capitals, .flags, .contours, .aerial, .landmarks] {
             let question = Question(mode: mode, country: sweden, target: mode == .aerial ? .aerialCityName : .countryName)
             XCTAssertNotEqual(HintProvider.hint1(for: question), HintProvider.hint2(for: question))
         }
     }
 
     func testHint2NeverRevealsTheFullAnswer() {
-        for mode in [GameMode.capitals, .flags, .contours, .aerial] {
+        for mode in [GameMode.capitals, .flags, .contours, .aerial, .landmarks] {
             let question = Question(mode: mode, country: sweden, target: mode == .aerial ? .aerialCityName : .countryName)
             XCTAssertFalse(HintProvider.hint2(for: question).contains("Stockholm"))
         }

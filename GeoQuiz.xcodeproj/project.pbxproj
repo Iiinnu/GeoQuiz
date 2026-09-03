@@ -11,6 +11,7 @@
 		033B7BEA7C29592E243F2E3B /* GameStatsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C651A8B0F56F6E8CDDB8AB7 /* GameStatsStoreTests.swift */; };
 		07C466E66B8455CA06FE4460 /* QuizSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0517E1B28FB8EF6D08D33EBD /* QuizSession.swift */; };
 		14DF2A5CD409D2F72B29D498 /* QuizSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A231A436A7ECD2965AD1FB6 /* QuizSessionTests.swift */; };
+		1C4D81ED3ECFD255E66AC1EF /* LandmarkDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620BB00AAAB2F39EA677EA46 /* LandmarkDataTests.swift */; };
 		1CD6ED3A57DB5A80BE8D989F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9AF084BF4406A4656EB75F /* Theme.swift */; };
 		1D6304B6726E76BF28409C62 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26CABDEA4501986DD91E5F3 /* GlobeView.swift */; };
 		2A85BF1B040033F9CC11341C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1DB9B77511A7A63FC74A168 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 		58F2BDAC1A5FF56611E3509A /* ContourData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBAEC33338966386AF5C957 /* ContourData.swift */; };
 		6134F95F651D34238488313C /* ContourShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A60DC87166BCB50441F785 /* ContourShape.swift */; };
 		61496D998D7220BC9D7A7251 /* CountryDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D6F16B7A7F7B0836DF8360 /* CountryDataTests.swift */; };
+		65004BD8E0F4B1F53BAA13E9 /* LandmarkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AFDAF9BE6663F3C5664E7 /* LandmarkData.swift */; };
 		66B53ACA5D4A47344D0DA423 /* ZoomableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141E94EDF3227E5E6B304190 /* ZoomableImageView.swift */; };
 		66BCE612364697130DED7465 /* QuestionFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92EA84569B64417390E581E /* QuestionFactoryTests.swift */; };
 		77DAEC7D21853E01890EFC61 /* FuzzyMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE3D194C2F6D9DFEC5B930 /* FuzzyMatcherTests.swift */; };
@@ -36,6 +38,7 @@
 		AE59A44D19491ADA422DAD71 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76981060238AE5B5910E5E94 /* Country.swift */; };
 		C07E4229035DED6E9D18A1AB /* BorderDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261E317613DB3EB12A09E622 /* BorderDataTests.swift */; };
 		C71080911E7D0BE6BC54AC08 /* CountryFunFacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DF94E32663FA70C4144335 /* CountryFunFacts.swift */; };
+		C981886CBBBBEB88D12CDC5E /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1D25B5F5DB4CC6AF300D89 /* Landmark.swift */; };
 		C9EB949E77A5D0C36920678C /* QuestionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF27C62BBF3CF9670255A2B /* QuestionFactory.swift */; };
 		D07CBD53ACFD026D2F472315 /* GameStatsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A41A639CAE160FB914EA3 /* GameStatsStore.swift */; };
 		D8FB250BD163D392D2E8FBC0 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965B009261BD86722E349CA8 /* Region.swift */; };
@@ -76,10 +79,12 @@
 		3B9AF084BF4406A4656EB75F /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		5FF27C62BBF3CF9670255A2B /* QuestionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactory.swift; sourceTree = "<group>"; };
 		61655EA0848B994121E0A085 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		620BB00AAAB2F39EA677EA46 /* LandmarkDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkDataTests.swift; sourceTree = "<group>"; };
 		6369F66C23562E9EA589CC83 /* BorderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderData.swift; sourceTree = "<group>"; };
 		689E277BD37701F743EA139E /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
 		76981060238AE5B5910E5E94 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		7A231A436A7ECD2965AD1FB6 /* QuizSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSessionTests.swift; sourceTree = "<group>"; };
+		7F1D25B5F5DB4CC6AF300D89 /* Landmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Landmark.swift; sourceTree = "<group>"; };
 		7FB1356A85C1CF3A48655DDE /* HintProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintProviderTests.swift; sourceTree = "<group>"; };
 		965B009261BD86722E349CA8 /* Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		9FBAEC33338966386AF5C957 /* ContourData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContourData.swift; sourceTree = "<group>"; };
@@ -88,6 +93,7 @@
 		AE96C24C277B85DD63995DA5 /* ContourShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContourShapeTests.swift; sourceTree = "<group>"; };
 		B37AED1D5C20B8B25CC3D32D /* ModePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModePickerView.swift; sourceTree = "<group>"; };
 		B4F6632039D936691DF12ECA /* GeoQuizApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoQuizApp.swift; sourceTree = "<group>"; };
+		C31AFDAF9BE6663F3C5664E7 /* LandmarkData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkData.swift; sourceTree = "<group>"; };
 		D1DB9B77511A7A63FC74A168 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2955DD55EA93CDB658FFDA2 /* Contours.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Contours.json; sourceTree = "<group>"; };
 		D5481E1FCCAD7B0B2D2C1E82 /* ContourDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContourDataTests.swift; sourceTree = "<group>"; };
@@ -124,6 +130,7 @@
 				E9AE3D194C2F6D9DFEC5B930 /* FuzzyMatcherTests.swift */,
 				0C651A8B0F56F6E8CDDB8AB7 /* GameStatsStoreTests.swift */,
 				7FB1356A85C1CF3A48655DDE /* HintProviderTests.swift */,
+				620BB00AAAB2F39EA677EA46 /* LandmarkDataTests.swift */,
 				F92EA84569B64417390E581E /* QuestionFactoryTests.swift */,
 				7A231A436A7ECD2965AD1FB6 /* QuizSessionTests.swift */,
 			);
@@ -174,6 +181,7 @@
 				D2955DD55EA93CDB658FFDA2 /* Contours.json */,
 				39C8077AEF3D1CF6B552A881 /* CountryData.swift */,
 				10DF94E32663FA70C4144335 /* CountryFunFacts.swift */,
+				C31AFDAF9BE6663F3C5664E7 /* LandmarkData.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -204,6 +212,7 @@
 			children = (
 				76981060238AE5B5910E5E94 /* Country.swift */,
 				E674D6545A0EEB2ECC45BB48 /* GameMode.swift */,
+				7F1D25B5F5DB4CC6AF300D89 /* Landmark.swift */,
 				2739B33FB0021D34E9BA3AE5 /* PersistenceModels.swift */,
 				61655EA0848B994121E0A085 /* Question.swift */,
 				965B009261BD86722E349CA8 /* Region.swift */,
@@ -323,6 +332,8 @@
 				A6A4E0BEEE1CB37E8967385A /* HomeBackgroundArt.swift in Sources */,
 				8579071BBDFE8B74D4994AD7 /* HomeView.swift in Sources */,
 				5210CDA1786710DDB234E3F6 /* HowToPlayView.swift in Sources */,
+				C981886CBBBBEB88D12CDC5E /* Landmark.swift in Sources */,
+				65004BD8E0F4B1F53BAA13E9 /* LandmarkData.swift in Sources */,
 				951A5D70D95386DBEB3D7445 /* ModePickerView.swift in Sources */,
 				023834D6DC774D6F16320F41 /* PersistenceModels.swift in Sources */,
 				D9DBA6C9410D8D3C894896D8 /* Question.swift in Sources */,
@@ -347,6 +358,7 @@
 				77DAEC7D21853E01890EFC61 /* FuzzyMatcherTests.swift in Sources */,
 				033B7BEA7C29592E243F2E3B /* GameStatsStoreTests.swift in Sources */,
 				DC2ED990FC603C341FE11A02 /* HintProviderTests.swift in Sources */,
+				1C4D81ED3ECFD255E66AC1EF /* LandmarkDataTests.swift in Sources */,
 				66BCE612364697130DED7465 /* QuestionFactoryTests.swift in Sources */,
 				14DF2A5CD409D2F72B29D498 /* QuizSessionTests.swift in Sources */,
 			);

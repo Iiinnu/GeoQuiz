@@ -1,0 +1,23 @@
+{
+  "images": [
+    {
+      "filename": "IN_hawamahal@1x.jpg",
+      "idiom": "universal",
+      "scale": "1x"
+    },
+    {
+      "filename": "IN_hawamahal@2x.jpg",
+      "idiom": "universal",
+      "scale": "2x"
+    },
+    {
+      "filename": "IN_hawamahal@3x.jpg",
+      "idiom": "universal",
+      "scale": "3x"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

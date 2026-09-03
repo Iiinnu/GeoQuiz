@@ -201,7 +201,7 @@ final class QuizSessionTests: XCTestCase {
         // Skip the rare case where the country name genuinely IS the correct answer --
         // Singapore is a city-state whose Aerial answer equals its own country name, so
         // this test's premise ("the country name alone shouldn't count as correct")
-        // doesn't apply to it. Without this, the test flakes on a ~1-in-76 random draw.
+        // doesn't apply to it. Without this, the test flakes on a ~1-in-79 random draw.
         try XCTSkipIf(question.country.name == question.primaryAnswer)
 
         session.submit(question.country.name)
@@ -239,5 +239,21 @@ final class QuizSessionTests: XCTestCase {
         }
         XCTAssertTrue(session.isFinished)
         XCTAssertEqual(session.score, session.maxScore, "all first-try correct answers should earn full points")
+    }
+
+    // MARK: - Landmarks: landmarkPlace answers (historic/pop-culture batch)
+
+    func testLandmarksCityStateOrPlacenameAnswerScoresCorrectFirstTry() {
+        // Draw sessions until one starts on a non-country-answer Landmarks question, then
+        // submit its real answer text end-to-end through FuzzyMatcher/QuizSession.
+        for _ in 0..<60 {
+            let session = QuizSession(modes: [.landmarks])
+            guard let question = session.currentQuestion, question.target == .landmarkPlace else { continue }
+            guard let answer = question.landmark?.answerText else { return XCTFail("landmarkPlace question missing answerText") }
+            session.submit(answer)
+            XCTAssertEqual(session.state, .correct, "submitting the real answer text ('\(answer)') should score correct")
+            return
+        }
+        XCTFail("never drew a non-country-answer Landmarks question across 60 sessions")
     }
 }

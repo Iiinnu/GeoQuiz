@@ -1,0 +1,23 @@
+{
+  "images": [
+    {
+      "filename": "CU_bayofpigs@1x.jpg",
+      "idiom": "universal",
+      "scale": "1x"
+    },
+    {
+      "filename": "CU_bayofpigs@2x.jpg",
+      "idiom": "universal",
+      "scale": "2x"
+    },
+    {
+      "filename": "CU_bayofpigs@3x.jpg",
+      "idiom": "universal",
+      "scale": "3x"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

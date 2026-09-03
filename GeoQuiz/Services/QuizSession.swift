@@ -120,15 +120,23 @@ final class QuizSession: ObservableObject {
     /// `FuzzyMatcher.isCorrect`). Drawn from the full dataset, not just this session's 20
     /// questions, since a country outside today's sample is still a valid false positive.
     private func distractorAnswers(for question: Question) -> [String] {
-        CountryData.all
-            .filter { $0.id != question.country.id }
-            .flatMap { other -> [String] in
-                switch question.target {
-                case .countryName: return other.acceptableNameAnswers
-                case .capitalName: return other.acceptableCapitalAnswers
-                case .aerialCityName: return other.acceptableAerialCityAnswers
+        switch question.target {
+        case .countryName, .capitalName, .aerialCityName:
+            return CountryData.all
+                .filter { $0.id != question.country.id }
+                .flatMap { other -> [String] in
+                    switch question.target {
+                    case .countryName: return other.acceptableNameAnswers
+                    case .capitalName: return other.acceptableCapitalAnswers
+                    case .aerialCityName: return other.acceptableAerialCityAnswers
+                    case .landmarkPlace: return []
+                    }
                 }
-            }
+        case .landmarkPlace:
+            return LandmarkData.all
+                .filter { $0.id != question.landmark?.id }
+                .flatMap(\.acceptablePlaceAnswers)
+        }
     }
 
     /// Points reflect how much help was needed: 3 for a first-try correct answer, 2 if

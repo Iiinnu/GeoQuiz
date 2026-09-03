@@ -19,6 +19,8 @@ enum HintProvider {
             return regionBorderCountHint(for: question)
         case .aerial:
             return continentPopulationHint(for: question)
+        case .landmarks:
+            return landmarkEraHint(for: question)
         }
     }
 
@@ -59,12 +61,30 @@ enum HintProvider {
         return "\(continent). It's \(descriptor) of a country with \(population) million people."
     }
 
+    /// Landmarks mode's Hint 1: continent plus a fact about the landmark's purpose or era
+    /// (see `Landmark.eraFact`) — deliberately not a description of what the photo shows,
+    /// same lesson as Flags: the image already reveals its own visual details.
+    static func landmarkEraHint(for question: Question) -> String {
+        let continent = question.country.region.rawValue
+        guard let fact = question.landmark?.eraFact, !fact.isEmpty else {
+            return "\(continent)."
+        }
+        return "\(continent). \(fact)"
+    }
+
     static func startsWithHint(for question: Question) -> String {
         let subject: String
         switch question.target {
         case .capitalName: subject = "The capital"
         case .aerialCityName: subject = "The city"
         case .countryName: subject = "The country"
+        case .landmarkPlace:
+            switch question.landmark?.answerType {
+            case .city: subject = "The city"
+            case .state: subject = "The state"
+            case .placename: subject = "The place"
+            case .country, nil: subject = "The answer"
+            }
         }
         return "\(subject) starts with '\(firstLetter(of: question))'."
     }

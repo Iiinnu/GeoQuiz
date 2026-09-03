@@ -31,6 +31,10 @@ struct AcknowledgementsView: View {
                             .foregroundStyle(.secondary)
                     }
 
+                    section(title: "Landmark Images") {
+                        Text("Sourced from [Wikimedia Commons](https://commons.wikimedia.org), each under a Creative Commons or public-domain license permitting reuse. CC BY / CC BY-SA images are attributed directly under each photo in the app; the full per-image credit list is in THIRD_PARTY_LICENSES.md.")
+                    }
+
                     section(title: "Population Data") {
                         Text("Figures come from the POP_EST field in Natural Earth's ne_10m_admin_0_countries dataset (public domain), rounded to the nearest million and not live-updated.")
                     }

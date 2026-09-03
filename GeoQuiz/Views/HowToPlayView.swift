@@ -10,7 +10,7 @@ struct HowToPlayView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     section(
                         title: "Game Modes",
-                        text: "Choose any mix of four modes to play: Capitals, Flags, Contours, and Satellite. Each round is 20 questions drawn from your selected modes."
+                        text: "Choose any mix of five modes to play: Capitals, Flags, Contours, Satellite, and Landmarks. Each round is 20 questions drawn from your selected modes."
                     )
                     section(
                         title: "Typed Answers",
@@ -21,8 +21,8 @@ struct HowToPlayView: View {
                         text: "Not sure? Every mode offers a hint — tap \"I don't know, give me a hint\" to reveal one before you guess. Answer wrong and you're not out yet: you'll automatically get a second, richer hint (everything the first one told you, plus more) and one more chance to answer correctly before the question is scored as missed."
                     )
                     section(
-                        title: "Satellite Images",
-                        text: "Tap a satellite image to view it full-screen, where you can pinch to zoom in for a closer look."
+                        title: "Satellite & Landmark Images",
+                        text: "Tap a satellite or landmark image to view it full-screen, where you can pinch to zoom in for a closer look."
                     )
                     section(
                         title: "Scoring",
