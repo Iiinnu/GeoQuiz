@@ -23,12 +23,17 @@ struct Question: Identifiable {
     /// Set only for `.landmarks` questions — which of the country's landmark photos (it
     /// may have more than one, see `LandmarkData`) this particular question shows.
     let landmark: Landmark?
+    /// Set only for `.aerial` questions — which of the country's satellite cities (it may
+    /// have more than one, see `SatelliteCityData`) this particular question shows. nil
+    /// falls back to `country`'s own default city, matching pre-multi-city behavior.
+    let satelliteCity: SatelliteCity?
 
-    init(mode: GameMode, country: Country, target: AnswerTarget, landmark: Landmark? = nil) {
+    init(mode: GameMode, country: Country, target: AnswerTarget, landmark: Landmark? = nil, satelliteCity: SatelliteCity? = nil) {
         self.mode = mode
         self.country = country
         self.target = target
         self.landmark = landmark
+        self.satelliteCity = satelliteCity
     }
 
     var promptText: String {
@@ -56,7 +61,9 @@ struct Question: Identifiable {
         switch target {
         case .countryName: return country.acceptableNameAnswers
         case .capitalName: return country.acceptableCapitalAnswers
-        case .aerialCityName: return country.acceptableAerialCityAnswers
+        case .aerialCityName:
+            guard let satelliteCity else { return country.acceptableAerialCityAnswers }
+            return [satelliteCity.cityName] + satelliteCity.cityAliases
         case .landmarkPlace: return landmark?.acceptablePlaceAnswers ?? []
         }
     }
@@ -66,7 +73,7 @@ struct Question: Identifiable {
         switch target {
         case .countryName: return country.name
         case .capitalName: return country.capital
-        case .aerialCityName: return country.resolvedAerialCityName
+        case .aerialCityName: return satelliteCity?.cityName ?? country.resolvedAerialCityName
         case .landmarkPlace: return landmark?.answerText ?? ""
         }
     }

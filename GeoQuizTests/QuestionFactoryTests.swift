@@ -149,4 +149,39 @@ final class QuestionFactoryTests: XCTestCase {
         let question = Question(mode: .landmarks, country: sweden, target: .landmarkPlace, landmark: landmark)
         XCTAssertEqual(question.promptText, "What is this place called?")
     }
+
+    // MARK: - Aerial: multi-city countries (56-city expansion)
+
+    func testAerialQuestionsCarryASatelliteCityMatchingTheCountry() {
+        let questions = QuestionFactory.makeSession(modes: [.aerial], questionCount: 20)
+        XCTAssertEqual(questions.count, 20)
+        for question in questions {
+            XCTAssertEqual(question.mode, .aerial)
+            XCTAssertEqual(question.target, .aerialCityName)
+            guard let satelliteCity = question.satelliteCity else {
+                return XCTFail("Aerial question missing its satelliteCity")
+            }
+            XCTAssertEqual(satelliteCity.countryID, question.country.id)
+            XCTAssertEqual(question.primaryAnswer, satelliteCity.cityName)
+        }
+    }
+
+    func testAerialDrawsExtraCitiesNotJustTheDefault() {
+        // Draw many rounds and confirm at least one non-default city (e.g. New York,
+        // Marrakech) turns up -- there's no weighting toward the original single entry.
+        var sawExtraCity = false
+        for _ in 0..<40 {
+            let questions = QuestionFactory.makeSession(modes: [.aerial], questionCount: 20)
+            if questions.contains(where: { $0.satelliteCity?.id.hasSuffix("_default") == false }) {
+                sawExtraCity = true
+                break
+            }
+        }
+        XCTAssertTrue(sawExtraCity, "no extra satellite city turned up across 40 rounds of 20 questions")
+    }
+
+    func testNonAerialQuestionsCarryNoSatelliteCity() {
+        let questions = QuestionFactory.makeSession(modes: [.capitals], questionCount: 5)
+        XCTAssertTrue(questions.allSatisfy { $0.satelliteCity == nil })
+    }
 }

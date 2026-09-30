@@ -100,6 +100,18 @@ cover, so a `leastCC`-mosaicked, cloud-free re-fetch was used instead). Capital-
 coordinates were looked up directly and `populationMillions` figures are general current
 estimates, same caveats as above.
 
+### 56-city expansion (multiple satellite cities per country)
+
+Every country previously had exactly one Aerial-mode image (its capital, or the Cape
+Town/Dar es Salaam overrides above). 56 additional, visually distinctive major cities
+were added on top — purely additive, the original single entry per country is untouched
+— giving 33 countries more than one possible satellite city (the US has the most, at 6
+total). See `GeoQuiz/Resources/SatelliteCityData.swift` and `Country.allSatelliteCities`.
+Sourced the same way as every other satellite crop: true-color Sentinel-2 L2A via the
+Copernicus Data Space Ecosystem's Sentinel Hub Process API, `leastCC` mosaicking, a fixed
+~30km-wide box centered on each city, coordinates looked up directly. Every one of these
+56 uses the "a major city" Hint 1 descriptor, since none of them is a capital.
+
 ## Landmark images
 
 The images in `GeoQuiz/Resources/Assets.xcassets` (`landmark_*.imageset`) are sourced

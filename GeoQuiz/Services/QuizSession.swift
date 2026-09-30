@@ -121,17 +121,23 @@ final class QuizSession: ObservableObject {
     /// questions, since a country outside today's sample is still a valid false positive.
     private func distractorAnswers(for question: Question) -> [String] {
         switch question.target {
-        case .countryName, .capitalName, .aerialCityName:
+        case .countryName, .capitalName:
             return CountryData.all
                 .filter { $0.id != question.country.id }
                 .flatMap { other -> [String] in
                     switch question.target {
                     case .countryName: return other.acceptableNameAnswers
                     case .capitalName: return other.acceptableCapitalAnswers
-                    case .aerialCityName: return other.acceptableAerialCityAnswers
-                    case .landmarkPlace: return []
+                    case .aerialCityName, .landmarkPlace: return []
                     }
                 }
+        case .aerialCityName:
+            // Every other country's satellite cities -- not just its default one, now that
+            // some countries have several (see `SatelliteCityData`).
+            return CountryData.all
+                .filter { $0.id != question.country.id }
+                .flatMap(\.allSatelliteCities)
+                .flatMap { [$0.cityName] + $0.cityAliases }
         case .landmarkPlace:
             return LandmarkData.all
                 .filter { $0.id != question.landmark?.id }

@@ -52,6 +52,18 @@ final class HintProviderTests: XCTestCase {
         XCTAssertEqual(HintProvider.hint1(for: question), "Africa. It's a major city of a country with 59 million people.")
     }
 
+    func testAerialHint1UsesTheSatelliteCitysOwnDescriptorWhenPresent() {
+        // An extra city (e.g. New York) should phrase Hint 1 around "a major city", not
+        // fall back to describing Sweden's own capital, even though `question.country` is
+        // still Sweden here (this test only cares about descriptor resolution order).
+        let extraCity = SatelliteCity(
+            id: "test_extra", countryID: "SE", cityName: "Test City", cityAliases: [],
+            descriptor: "a major city", imageAssetRef: "x"
+        )
+        let question = Question(mode: .aerial, country: sweden, target: .aerialCityName, satelliteCity: extraCity)
+        XCTAssertEqual(HintProvider.hint1(for: question), "Europe. It's a major city of a country with 10 million people.")
+    }
+
     func testHint1NeverRevealsTheAnswer() {
         for mode in [GameMode.capitals, .flags, .contours, .aerial, .landmarks] {
             let question = Question(mode: mode, country: sweden, target: mode == .aerial ? .aerialCityName : .countryName)

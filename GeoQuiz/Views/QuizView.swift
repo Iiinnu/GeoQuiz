@@ -136,7 +136,7 @@ private struct QuestionMediaView: View {
                         .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
                 }
             case .aerial:
-                if let assetName = question.country.aerialImageRef {
+                if let assetName = question.satelliteCity?.imageAssetRef ?? question.country.aerialImageRef {
                     VStack(spacing: 4) {
                         Button {
                             isShowingFullscreenImage = true

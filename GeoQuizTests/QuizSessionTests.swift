@@ -256,4 +256,21 @@ final class QuizSessionTests: XCTestCase {
         }
         XCTFail("never drew a non-country-answer Landmarks question across 60 sessions")
     }
+
+    // MARK: - Aerial: extra satellite cities (56-city expansion)
+
+    func testAerialExtraCityAnswerScoresCorrectFirstTry() {
+        // Draw sessions until one starts on a non-default satellite city, then submit its
+        // real city name end-to-end through FuzzyMatcher/QuizSession.
+        for _ in 0..<60 {
+            let session = QuizSession(modes: [.aerial])
+            guard let question = session.currentQuestion,
+                  let satelliteCity = question.satelliteCity,
+                  !satelliteCity.id.hasSuffix("_default") else { continue }
+            session.submit(satelliteCity.cityName)
+            XCTAssertEqual(session.state, .correct, "submitting the real city name ('\(satelliteCity.cityName)') should score correct")
+            return
+        }
+        XCTFail("never drew a non-default Aerial question across 60 sessions")
+    }
 }

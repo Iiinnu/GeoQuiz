@@ -50,14 +50,14 @@ enum HintProvider {
     }
 
     /// Aerial mode's Hint 1: continent plus country population, phrased around whatever
-    /// the pictured city actually is (usually "the capital", occasionally something else —
-    /// see `Country.aerialCityName`). The population figure is attached directly to "a
-    /// country", not left as a dangling "living there" that could be misread as describing
-    /// the city itself.
+    /// the pictured city actually is (usually "the capital", or "a major city" for every
+    /// extra city added on top — see `SatelliteCity`/`Country.aerialCityName`). The
+    /// population figure is attached directly to "a country", not left as a dangling
+    /// "living there" that could be misread as describing the city itself.
     static func continentPopulationHint(for question: Question) -> String {
         let continent = question.country.region.rawValue
         let population = question.country.populationMillions
-        let descriptor = question.country.resolvedAerialCityDescriptor
+        let descriptor = question.satelliteCity?.descriptor ?? question.country.resolvedAerialCityDescriptor
         return "\(continent). It's \(descriptor) of a country with \(population) million people."
     }
 

@@ -42,6 +42,12 @@ enum QuestionFactory {
                 let landmark = mode == .landmarks
                     ? LandmarkData.landmarks(forCountryID: country.id).randomElement()
                     : nil
+                // Every country always has at least its existing default city, so this is
+                // never nil for .aerial — randomElement() picks uniformly among the default
+                // and any extras, with no weighting toward either.
+                let satelliteCity = mode == .aerial
+                    ? country.allSatelliteCities.randomElement()
+                    : nil
                 let target: AnswerTarget
                 switch mode {
                 case .capitals: target = Bool.random() ? .countryName : .capitalName
@@ -49,7 +55,7 @@ enum QuestionFactory {
                 case .flags, .contours: target = .countryName
                 case .landmarks: target = (landmark?.answerType ?? .country) == .country ? .countryName : .landmarkPlace
                 }
-                return Question(mode: mode, country: country, target: target, landmark: landmark)
+                return Question(mode: mode, country: country, target: target, landmark: landmark, satelliteCity: satelliteCity)
             }
         }
         return questions.shuffled()
