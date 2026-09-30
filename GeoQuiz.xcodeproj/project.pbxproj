@@ -94,7 +94,7 @@
 		965B009261BD86722E349CA8 /* Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		9FBAEC33338966386AF5C957 /* ContourData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContourData.swift; sourceTree = "<group>"; };
 		A26CABDEA4501986DD91E5F3 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
-		A3B839C8173E09DFCA4F9B67 /* GeoQuiz.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = GeoQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3B839C8173E09DFCA4F9B67 /* GeoQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeoQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE96C24C277B85DD63995DA5 /* ContourShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContourShapeTests.swift; sourceTree = "<group>"; };
 		B37AED1D5C20B8B25CC3D32D /* ModePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModePickerView.swift; sourceTree = "<group>"; };
 		B4F6632039D936691DF12ECA /* GeoQuizApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoQuizApp.swift; sourceTree = "<group>"; };
@@ -282,7 +282,6 @@
 						ProvisioningStyle = Automatic;
 					};
 					F359A9D6FEC95DC2D8814E62 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -484,7 +483,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = D3UNM984CW;
 				INFOPLIST_FILE = "Generated-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -502,7 +502,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = D3UNM984CW;
 				INFOPLIST_FILE = "Generated-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
